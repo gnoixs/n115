@@ -1,0 +1,190 @@
+/**title背景颜色*/
+.bar.bar-positive{
+	background: url(/src/imgs/banner-bg.png) repeat-x left bottom;
+}
+/*右侧更多导航*/
+.ar-popmenu {
+    padding: 10px;
+    border: 2px solid #2e8c71;
+    width: 130px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, .2);
+    position: absolute;
+    z-index: 99;
+    top: 54px;
+    right: 10px;
+}
+
+.ar-popmenu:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+    border-width: 8px;
+    border-color: transparent transparent #2e8c71;
+    border-style: none dotted solid;
+    z-index: 99;
+}
+
+.ar-popmenu:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -6px;
+    right: 22px;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+    border-width: 6px;
+    border-color: transparent transparent #fff;
+    border-style: none dotted solid;
+    z-index: 100;
+}
+
+.ar-popmenu li {
+    padding: 8px 10px;
+    text-align: center;
+    border-bottom: 2px solid #eeeeee;
+    font-size: 16px;
+}
+.ar-popmenu li a{
+	text-decoration: none;
+	color:#000;
+}
+
+.ar-popmenu li:last-child {
+    border: none;
+}
+
+/*游戏玩法*/
+.ar-poptype {
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: -100%;
+    background: #faf7f5;
+    z-index: 99;
+    border-bottom: 2px solid #fb8057;
+    -webkit-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+}
+
+
+
+/*开奖历史 -- 倒计时导航栏*/
+.game-history {
+    position: relative;
+    width: 100%;
+    top:44px;
+}
+.game-history .curtion{
+
+}
+
+.history-bar {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    background-color: #e8e8e8;
+    color: #333;
+    box-shadow: 0 0 10px 2px #ccc;
+    padding: 0;
+}
+
+.history-bar span{
+	font-size: 12px;
+    line-height: 30px;
+    padding: 0 0 0 10px;
+}
+.history-bar span span{
+	color: #088;
+}
+.history-bar span.ai-random{
+	padding: 0 0 0 25px;
+    border: 0;
+    font-size: 12px;
+    color: #088;
+    height: 30px;
+    position: absolute;
+    right: 5px;
+    background: url(/src/imgs/random.png) 0 5px no-repeat;
+    margin-right: 20px;
+}
+
+/**开奖历史 -- 历史记录*/
+.history-box{
+	clear: both;
+    z-index: 10;
+    position: absolute;
+    height: auto;
+    width: 100%;
+    top:0px;
+}
+.history-box table{
+	border-spacing: 0;
+    border-collapse: collapse;
+	width: 100%;
+    text-align: center;
+    background: #fff;
+}
+.history-box table tr th{
+	background: #d4d4d4;
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+}
+.history-box table tr{
+	color: #666;
+	background: #e8e8e8;
+	height: 30px;
+    line-height: 30px;
+}
+.history-box table tr:nth-child(odd){
+	background: #ededed;
+}
+
+.viewmore{
+	background: #e8e8e8;
+    display: block;
+    width: 100%;
+    line-height: 30px;
+    height: 30px;
+    text-align: right;
+    z-index: 82;
+    padding: 0 20px;
+    color: #46b79f;
+    text-decoration: none;
+    -moz-box-shadow: 0 0 10px 2px #ccc;
+    -webkit-box-shadow: 0 0 10px 2px #ccc;
+    box-shadow: 0 0 10px 2px #ccc;
+}
+.open-button{
+	clear: both;
+    display: block;
+    width: 60px;
+    height: 15px;
+    background: #e8e8e8;
+    position: relative;
+    z-index: 1;
+    left: 50%;
+    text-align: center;
+    margin-top: 0;
+    margin-left: -30px;
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+    -moz-box-shadow: 0 3px 3px 1px #ccc;
+    -webkit-box-shadow: 0 3px 3px 1px #ccc;
+    box-shadow: 0 3px 3px 1px #ccc;
+    color:#24af88;
+}
+.open-button.hide{
+	top:30px;
+}

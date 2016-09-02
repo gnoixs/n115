@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF8">
+  	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>11选5</title>
+    <link href="/libs/ionic/release/css/ionic.css" rel="stylesheet">
+    <link href="/src/styles/style.css" rel="stylesheet">
+  </head>
+
+  <body ng-app='app' ng-controller='bodyCtrl'>
+  		  
+  	<ion-nav-view>
+  		
+  	</ion-nav-view>
+	<script src="/libs/jquery/dist/jquery.js"></script>  
+  	<script src="/libs/ionic/release/js/ionic.bundle.js"></script>       
+  	<script src="/libs/angular-resource/angular-resource.js"></script>  
+
+	<script src="/src/scripts/phoenix.js"></script>	
+  	<script src="/src/datas/init.cf.js"></script>
+  	
+	
+	<script type="text/javascript">			
+		window.debug      =  false;
+        var returnUrl     =  'http://www2.joy188.com:888/index'; 			    // 大厅地址
+        var basePath      =  '';
+        var introUrl      =  '/src/tpls/gameintro.html';						//游戏介绍模板地址
+        var moreRecordUrl =  'http://www.google.com';
+        var backToPcUrl   =  'http://em.dev03.com/gameBet/cqssc/';
+
+        phoenix.Games.N115.Config.pros.init();							       //获取游戏玩法数组
+
+        var configData = {
+            "gameTypeCn"          :  phoenix.Games.N115.Config.defConfig.gameTypeCn,          //游戏中文名称 -- 【'山东11选5'】
+            "defaultMethod"       :  phoenix.Games.N115.Config.pros.getDefaultMethod(),       //默认玩法 -- 【xuanwu.renxuanwuzhongwu.fushi'】
+            "gameMethods"         :  phoenix.Games.N115.Config.pros.getTypes(),				  //游戏玩法数组
+            "records"             :  {},
+            "gameLimits"          :  {},
+            "awardGroups"         :  phoenix.Games.N115.Config.defConfig.awardGroups,         //奖金组
+            "awardGroupRetStatus" :  phoenix.Games.N115.Config.defConfig.awardGroupRetStatus, //奖金组状态是否设置
+            "isSupport2000"       :  phoenix.Games.N115.Config.defConfig.isSupport2000 		  //是否支持超级2000
+        };
+
+//数据请求接口
+/*
+        // 提交用户奖金组设置的接口
+		//var saveBetAwardUrl = phoenix.Games.N115.Config.pros.getSaveProxyBetGameAwardGroupUrl();
+        var saveBetAwardUrl = '/configs/datas/saveBetAward.json';
+
+        // 提交投注接口
+		//var submitUrl = phoenix.Games.N115.Config.pros.submitUrl();
+        var submitUrl = '/configs/datas/submit.json';
+
+        // 调用接口获取动态配置数据, 如投注倍数的限制等
+		//var dynamicConfigUrl = phoenix.Games.N115.Config.pros.getDynamicConfigUrl();
+        var dynamicConfigUrl = '/configs/datas/dynamicConfig.json';
+        configData.dynamicConfigUrl = dynamicConfigUrl;
+        $.getJSON(dynamicConfigUrl, function(data){
+            configData.gameLimits = data.data.gamelimit[0];
+        });
+
+        // 调用接口获取近期开奖信息
+		//var gameChartUrl = 'http://em.dev03.com/game/chart/cqssc';
+        var gameChartUrl = '/configs/datas/gamechart.json';
+        $.getJSON(gameChartUrl, function(data){
+            configData.records = data.body.result;
+        });
+
+
+        // 调用接口获取用户账户余额
+		//var queryUserBalUrl = phoenix.Games.N115.Config.pros.getUserBalUrl();
+        var queryUserBalUrl = '/configs/datas/queryUserBal.json';
+        $.getJSON(queryUserBalUrl, function (data){
+            configData.balance = data;
+        });
+
+        if(/#\/drawing|#\/submit|#\/intro/.test(location.hash)){
+            location.hash = '#/pick';
+        }*/
+     
+	</script>
+
+
+  	
+  	<script src="/src/scripts/app.js"></script>	
+  	<script src="/src/scripts/controller.js"></script>		  
+  </body>
+</html>

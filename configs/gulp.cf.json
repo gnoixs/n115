@@ -1,0 +1,15 @@
+{
+	"clean"  :   ["public/build"],   
+	"style"  :  {
+		"src"    : "public/src/styles/*.scss",
+		"build"  : "public/build/style/"
+	},
+	"scripts" : {
+		"src"    : "public/src/scripts/*.js",
+		"build"  : "public/build/scripts/"
+	},
+	"images" : {
+		"src"    : "public/src/imgs/**/*.{jpg,png,gif,jpeg}",
+		"build"  : "public/build/imgs/"
+	}
+}

@@ -1,0 +1,99 @@
+<ion-view>
+<!--头部开始-->	
+	<ion-header-bar class="bar-positive">
+  		<a class="button button-icon ion-chevron-left" ng-hide="iseditor" ng-click="goBack()"></a>
+		<h1 class="title" ng-click="changeMethod($event)">{{ currentMethodTitle }}
+			<span class="icon ion-chevron-down 
+						{{ poptypeshow ? 'ion-chevron-up':'ion-chevron-down'}}"
+                  ng-hide="iseditor">
+            </span>
+        </h1>
+  		<a class="button button-icon icon ion-more" ng-click="menuShowHander()"></a>
+	</ion-header-bar>
+<!--头部结束-->	
+<!--更多选项开始-->	
+		<div class="ar-popmenu" ng-show="menuShow">
+	        <ul>
+	            <li><a href="#"> 走势图</a></li>
+	            <li ng-click="yuanjiao()">模式 {{ moneyUnit==1?"元":"角" }}</li>
+	            <li ng-click="fandian()"  ng-show="awardGroupRetStatus">奖金返点</li>
+	            <li ng-click="showPlayInfo()">玩法说明</li>
+	            <li><a href="#">电脑版</a></li>
+	        </ul>
+	    </div>
+<!--更多选项结束-->	
+<!--游戏玩法开始-->
+	<div class="ar-poptype" onscroll="true" ng-class="{active: poptypeshow}">
+            <div class="strategy-select">
+                <div class="ssc-menu-nav1">
+                    <a class="putong" ng-click="mainSlideChange(0,$event)">普通玩法</a>
+                    <a class="chaoji2000" ng-click="mainSlideChange(1,$event)" style="display: {{serverGameConfig.isSupport2000 ? '':'none'}};">超级2000</a>
+                </div>
+                <div style="width:100%; overflow: hidden;border-bottom: 1px solid #e6e6e6; position: relative;">
+                    <div class="row" id="play_type_box" style="width:{{serverGameConfig.isSupport2000 ? '100%':'137.5%'}};">
+                        <div class="col mytitle {{initilesData[i].active ? 'active':''}}"
+                             ng-repeat="(i,gameClass) in serverGameConfig.gameMethods track by initiles($index,gameClass)"
+                             ng-click="slideChange(i,$event)">
+                            <span>{{gameClass.title | split:'_':'latest'}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <ion-slide-box class="noborder" on-slide-changed="slideHasChanged($index)" ng-click="slideChange()">
+                    <ion-slide ng-repeat="(iii,gameClass) in serverGameConfig.gameMethods track by initMM($index)">
+                        <div class="strategy-list">
+                            <dl ng-repeat="gamelabel in gameClass.childs">
+                                <dt>{{gamelabel.title }}:</dt>
+                                <dd>
+                                <span class="{{ gameMethod.cur ? 'active':'' }}"
+                                      ng-click="chooseGame(gameMethod,iii)"
+                                      ng-repeat="gameMethod in gamelabel.childs track by initMethed($index,gameMethod,gameMethod.mode+'.'+gameMethod.parent+'.'+gameMethod.name,gameClass.title+gameMethod.title,iii)">
+                                    {{gameMethod.title}}
+                                </span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </ion-slide>
+                </ion-slide-box>
+        </div>
+    </div>
+<!--游戏玩法结束-->
+
+<!--开奖历史开始-->
+<div class="game-history {{isDanshi? 'isDanshi':'' }}" style="display: none;">
+    <div class="history-bar">     
+	    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
+	    <span class="ai-random" ng-click="getRandom()">机选</span>      
+    </div>
+
+    <div class="history-box">   <!-- {{historyShow ? '': 'record-list'}}"-->
+        <table cellpadding="0" cellspacing="0" ng-show="historyShow">
+            <tr>
+                <th>期号</th><th>开奖结果</th><th>跨度</th><th>和值</th><th>超级2000</th>
+            </tr>
+            <tbody>
+	            <!--<tr ng-repeat="item in historyRecord">
+	                <td>{{item.webIssueCode}}</td>
+	                <td>{{item.numberRecord}}</td>
+	                <td>{{item.kuadu}}</td>
+	                <td>{{item.totValue}}</td>
+	                <td><spen class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></spen></td>
+	            </tr>-->
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            </tbody>
+        </table>
+        <a href="#" class="viewmore" ng-show="historyShow">查看更多</a>
+        <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}" ng-click="showRecord10()"></span>
+    </div>
+</div>
+<!--开奖历史结束-->    
+</ion-view>
