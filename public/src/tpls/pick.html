@@ -24,49 +24,35 @@
 <!--更多选项结束-->	
 <!--游戏玩法开始-->
 	<div class="ar-poptype" onscroll="true" ng-class="{active: poptypeshow}">
-            <div class="strategy-select">
-                <div class="ssc-menu-nav1">
-                    <a class="putong" ng-click="mainSlideChange(0,$event)">普通玩法</a>
-                    <a class="chaoji2000" ng-click="mainSlideChange(1,$event)" style="display: {{serverGameConfig.isSupport2000 ? '':'none'}};">超级2000</a>
-                </div>
-                <div style="width:100%; overflow: hidden;border-bottom: 1px solid #e6e6e6; position: relative;">
-                    <div class="row" id="play_type_box" style="width:{{serverGameConfig.isSupport2000 ? '100%':'137.5%'}};">
-                        <div class="col mytitle {{initilesData[i].active ? 'active':''}}"
-                             ng-repeat="(i,gameClass) in serverGameConfig.gameMethods track by initiles($index,gameClass)"
-                             ng-click="slideChange(i,$event)">
-                            <span>{{gameClass.title | split:'_':'latest'}}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <ion-slide-box class="noborder" on-slide-changed="slideHasChanged($index)" ng-click="slideChange()">
-                    <ion-slide ng-repeat="(iii,gameClass) in serverGameConfig.gameMethods track by initMM($index)">
-                        <div class="strategy-list">
-                            <dl ng-repeat="gamelabel in gameClass.childs">
-                                <dt>{{gamelabel.title }}:</dt>
-                                <dd>
-                                <span class="{{ gameMethod.cur ? 'active':'' }}"
-                                      ng-click="chooseGame(gameMethod,iii)"
-                                      ng-repeat="gameMethod in gamelabel.childs track by initMethed($index,gameMethod,gameMethod.mode+'.'+gameMethod.parent+'.'+gameMethod.name,gameClass.title+gameMethod.title,iii)">
-                                    {{gameMethod.title}}
-                                </span>
-                                </dd>
-                            </dl>
-                        </div>
-                    </ion-slide>
-                </ion-slide-box>
+        <div class="row">
+            <div class="col mytitle {{i == choosedType ? 'active':''}}" ng-repeat="(i,gameMethods) in gameMethodsGroup" ng-click="slideChange(i,gameMethods)">
+                <span>{{gameMethods.title}}</span>
+            </div>
         </div>
+
+        <ion-slide-box on-slide-changed="slideHasChanged($index)" delegate-handle="slidebox"  active-slide ="choosedType">
+            <ion-slide ng-repeat="(k,_gameMethods) in gameMethodsGroup">
+                <dl ng-repeat="_gameMethod in _gameMethods.childs">
+                    <dt>{{_gameMethod.title}}:</dt>
+                    <dd>
+	                    <span class="typeSpans {{j==0&&_gameType.parent=='renxuanwuzhongwu'?'active':''}}" ng-click="chooseGame(j,_gameType,$event)" ng-repeat="(j,_gameType) in _gameMethod.childs">
+	                       {{_gameType.title}}
+	                    </span>
+                    </dd>
+                </dl>
+            </ion-slide>
+        </ion-slide-box>
     </div>
 <!--游戏玩法结束-->
 
 <!--开奖历史开始-->
-<div class="game-history {{isDanshi? 'isDanshi':'' }}" style="display: none;">
+<div class="game-history {{isDanshi? 'isDanshi':'' }}">
     <div class="history-bar">     
 	    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
 	    <span class="ai-random" ng-click="getRandom()">机选</span>      
     </div>
 
-    <div class="history-box">   <!-- {{historyShow ? '': 'record-list'}}"-->
+    <div class="history-box">
         <table cellpadding="0" cellspacing="0" ng-show="historyShow">
             <tr>
                 <th>期号</th><th>开奖结果</th><th>跨度</th><th>和值</th><th>超级2000</th>
@@ -96,4 +82,59 @@
     </div>
 </div>
 <!--开奖历史结束-->    
+<!--选球界面开始-->
+<ion-content  class="has-footer has-header " delegate-handle="mainScroll" style="top:77px;">
+	<div class="number-select-content {{isDanshi? 'isDanshi':'' }}">
+		<div ng-repeat="arr in [1,2]">
+			<div class="number-select-list" ng-repeat="ballTree in ballTrees">
+			    <div class="list-top">
+			        <h3>{{ ballTree.h3 =='isEditor' ? '': ballTree.h3}}</h3>
+			        <ol>
+			            <li class="{{ val.cur ? 'active':''  }}" ng-repeat="(name,val) in ballTree.quick"
+			                ng-click="">{{ ballTree.quick[name] }}
+			            </li>
+			        </ol>
+			    </div>
+			    <ul class="ball-list">
+			        <li ng-repeat="ball in ballTree.balls" class="{{ balls[k] ? 'active':'' }}"  ng-click="result()">{{ball}}
+			        </li>
+			    </ul>
+			</div>
+		</div>
+	</div>
+
+<!--单式-->
+	<div class="number-select-content number-select-content2 {{isDanshi? '': 'isDanshi'}}" style="display:none;">
+	    <div class="row option-label {{beforesubmited?'':'beforesubmited'}}">
+	        <div class="col label">请输入注单:</div>
+	        <div ng-click="helprule()" class="col">帮助</div>
+	        <div ng-click="clearVal()" class="col">清空</div>
+	    </div>
+
+	    <div class="row option-label {{beforesubmited?'beforesubmited':''}}">
+	        <div class="col label">请输入注单:</div>
+	        <div ng-click="helprule()" class="col">规则</div>
+	        <div ng-click="cancelSubmited()" class="col">返回</div>
+	    </div>
+
+	    <div class="number-select-content-danshi">
+	        <!--说明：<br>1、请参照"标准格式样本"格式录入或上传方案。<br>2、每一注号码之间的间隔符支持
+	            回车 空格[ ] 逗号[,] 分号[;] 冒号[:] 竖线 [|]<br>3、文件格式必须是.txt格式。<br>4、文件较大时会导致上传时间较长，请耐心等待！<br>5、将文件拖入文本框即可快速实现文件上传功能。<br>6、导入文本内容后将覆盖文本框中现有的内容。-->
+	        <p id="tips-danshi" class="tips-danshi" style="color:#888;font-size:12px;line-height:170%;">
+	            1.输入的注单请参照如下规则：单注内各号码保持相连，不同注号码间用分隔符隔开;<br>
+	            2.分隔符支持：回车[ ]空格[ ]逗号[,]分号[;]冒号[:]竖线[|];<br>
+	            3.文件较大时，提交注单可能需要一定时间，请耐心等待;
+	        </p>
+
+	        <textarea class="text-areas" ng-focus="textareaFocus()" ng-blur="textareaBlur()" rows="20"></textarea>
+	    </div>
+	    <div ng-show="hasDanshiErrror">
+	        <div class="showtextarea-err" ng-click="showtextareaError()">
+	            被排除的问题
+	        </div>
+	    </div>
+	</div>
+
+</ion-content>
+<!--选球界面结束-->
 </ion-view>

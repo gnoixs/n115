@@ -1,6 +1,7 @@
 /**title背景颜色*/
 .bar.bar-positive{
 	background: url(/src/imgs/banner-bg.png) repeat-x left bottom;
+	z-index: 20;
 }
 /*右侧更多导航*/
 .ar-popmenu {
@@ -66,14 +67,97 @@
     width: 100%;
     overflow: hidden;
     position: absolute;
-    top: -100%;
-    background: #faf7f5;
-    z-index: 99;
-    border-bottom: 2px solid #fb8057;
+    top:-100%;
+    border-radius: 5px;
+    background: #ffffff;
+    z-index: 10;
+    border-bottom: 4px solid #088;
     -webkit-transition: all 500ms ease-in-out;
     transition: all 500ms ease-in-out;
 }
+.ar-poptype.active{
+	top:44px;
+}
 
+.ar-poptype .row .mytitle {
+	width:80%;
+    padding: 5px 0;
+    font-size: 12px;
+    text-align: center;
+    margin:0 auto;
+}
+.ar-poptype .row .mytitle.active{
+	border-radius: 30px;
+    background: #088;
+    color: #fff;
+    line-height: 10px;
+    height: 22px;
+    margin-top: 5px;
+    
+}
+.ar-poptype .row .mytitle.active span{
+	/*color: #fff;
+	background: #088;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;*/
+}
+
+.slider {
+    background: #fff;
+    border-top: 1px solid #D2C8C8;
+    padding: 10px;
+}
+
+.slider dl {
+    font-size: 14px;
+    vertical-align: top;
+    overflow: hidden;
+    height: 25px;
+    line-height: 25px;
+    margin-bottom:10px;
+}
+
+.ion-slide {
+    height: 100%;
+}
+
+.slider dl dt {
+    line-height: 25px;
+    width: 30%;
+    float: left;
+    color: #088;
+    font-weight: 400;
+    text-align: right;
+    padding: 0;
+}
+
+.slider dl dd {
+   line-height: 25px;
+    width: 70%;
+    float: left;
+}
+
+.slider dd span {
+    border: 0;
+    color: #666;
+    margin-left:20px;
+    padding: 0 5px;
+    display: inline-block;
+}
+
+.slider dd span.active{
+   border-radius: 5px;
+    background: #088;
+    color: #fff;
+    line-height: 22px;
+    height: 22px;
+    text-align: center;
+}
+
+.slider-pager{
+	display: none;
+}
 
 
 /*开奖历史 -- 倒计时导航栏*/
@@ -81,6 +165,7 @@
     position: relative;
     width: 100%;
     top:44px;
+    z-index: 1;
 }
 .game-history .curtion{
 
@@ -187,4 +272,115 @@
 }
 .open-button.hide{
 	top:30px;
+}
+
+/*选号区*/
+.number-select-content {
+    padding: 10px;
+    width: 100%;
+    color: #666;
+}
+.number-select-list{
+	margin-top:15px;
+}
+.number-select-content li {
+    float: left;
+}
+
+.list-top {
+    border-bottom: 1px solid #ebebeb;
+    line-height: 36px;
+}
+
+.list-top h3 {
+    display: inline-block;
+    font-size: 17px;
+    margin: 0px;
+    line-height: 30px;
+    color: #666;
+}
+
+.list-top ol {
+    float: right;
+}
+
+.list-top ol li {
+    padding: 0px 2px;
+    margin: 0px 4px;
+    cursor: pointer;
+    font-size: 16px;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-align: center;
+}
+
+.list-top ol li.active {
+    color: #3e4255;
+    background: #c2c8e3;
+}
+
+.ball-list {
+    margin-left: -10px;
+    margin-right: -10px;
+    overflow: hidden;
+}
+
+.ball-list li {
+    text-align: center;
+    line-height: 38px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px dashed #d4d4d4;
+    background: #ebebeb;
+    margin: 5px 10px;
+    font-size: 24px;
+    font-weight: 900;
+    color:#c1c1c1;
+}
+
+@media screen  and (min-device-width: 321px) and (max-device-width: 375px) {
+    .ball-list li {
+        line-height: 46px;
+        height: 48px;
+        width: 48px;
+        font-size: 28px;
+        margin: 12px;
+    }
+
+    .list-top ol li {
+        font-size: 18px;
+        height: 32px;
+        width: 32px;
+        line-height: 32px;
+    }
+}
+
+@media screen and (min-device-width: 376px) and (max-device-width: 540px) {
+    .ball-list li {
+        line-height: 50px;
+        height: 52px;
+        width: 52px;
+        font-size: 34px;
+        margin: 14px;
+    }
+
+    .list-top ol li {
+        font-size: 20px;
+        height: 34px;
+        width: 34px;
+        line-height: 34px;
+    }
+}
+
+.ball-list .active {
+    background: #2bbf9d;
+    border: 1px solid #2bbf9d;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 3px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 3px 1px rgba(0, 0, 0, .3);
 }
