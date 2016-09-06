@@ -11,31 +11,13 @@ angular.module('starter.controllers', ['ionic'])
         $scope.singleMode = false;        //是否是单式
         $scope.modes = ['xuanwu.renxuanwuzhongwu.fushi'];
 
-        // $scope.bt = {
-        //   h3:'选区一',
-        //   quick:{b:'大',x:'小',q:'全',d:'单',s:'双',c:'清'},
-        //   balls:[
-        //       { 'content' : '01',     'active' : false },
-        //       { 'content' : '02',     'active' : false },
-        //       { 'content' : '03',     'active' : false },
-        //       { 'content' : '04',     'active' : false },
-        //       { 'content' : '05',     'active' : false },
-        //       { 'content' : '06',     'active' : false },
-        //       { 'content' : '07',     'active' : false },
-        //       { 'content' : '08',     'active' : false },
-        //       { 'content' : '09',     'active' : false },
-        //       { 'content' : '10',     'active' : false },
-        //       { 'content' : '11',     'active' : false },
-        //       { 'content' : '5单0双', 'active' : false },
-        //       { 'content' : '4单1双', 'active' : false },
-        //       { 'content' : '3单2双', 'active' : false },
-        //       { 'content' : '1单3双', 'active' : false },
-        //       { 'content' : '1单3双', 'active' : false },
-        //       { 'content' : '0单5双', 'active' : false }
-        //     ],
-        //   start:0,
-        //   end:11
-        // };
+        var tpl = {
+          h3:'选区一',
+          quick:['大','小','全','单','双','清'],
+          balls:['01','02','03','04','05','06','07','08','09','10','11','5单0双','4单1双','3单2双','1单3双','1单3双','0单5双'],
+          start:0,
+          end:11
+        };
 
         $scope.ballTrees = [{
           h3:'选区一',
