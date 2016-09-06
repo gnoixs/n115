@@ -3,7 +3,7 @@ angular.module('app',['ionic','ngResource','starter.controllers']).run(['$ionicP
 		if(window.StatusBar){
 			StatusBar.styleDefault();
 		}
-	}]).config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+	}]).config(['$stateProvider','$urlRouterProvider','$ionicConfigProvider',function($stateProvider,$urlRouterProvider,$ionicConfigProvider){
 		$stateProvider.state('pick', {					//选号
 				url         : '/pick',
 				templateUrl : 'src/tpls/pick.html',
@@ -27,4 +27,5 @@ angular.module('app',['ionic','ngResource','starter.controllers']).run(['$ionicP
 			location.href = location.origin + location.pathname + location.search + "#/pick";
 		}
 		$urlRouterProvider.otherwise('pick');
+		//$ionicConfigProvider.scrolling.jsScrolling(true);
 	}]);

@@ -1,6 +1,6 @@
 <ion-view>
 <!--头部开始-->	
-	<ion-header-bar class="bar-positive">
+	<ion-header-bar class="bar-positive" align-title="center">
   		<a class="button button-icon ion-chevron-left" ng-hide="iseditor" ng-click="goBack()"></a>
 		<h1 class="title" ng-click="changeMethod($event)">{{ currentMethodTitle }}
 			<span class="icon ion-chevron-down 
@@ -83,9 +83,9 @@
 </div>
 <!--开奖历史结束-->    
 <!--选球界面开始-->
-<ion-content  class="has-footer has-header " delegate-handle="mainScroll" style="top:77px;">
+<ion-content  class="has-footer has-header" delegate-handle="mainScroll" style="top:77px;">
 	<div class="number-select-content {{isDanshi? 'isDanshi':'' }}">
-		<div ng-repeat="arr in [1,2]">
+		<div ng-repeat="arr in [1,2,3]">
 			<div class="number-select-list" ng-repeat="ballTree in ballTrees">
 			    <div class="list-top">
 			        <h3>{{ ballTree.h3 =='isEditor' ? '': ballTree.h3}}</h3>
@@ -137,4 +137,52 @@
 
 </ion-content>
 <!--选球界面结束-->
+
+<!--footer开始-->
+<div class="bar bar-footer bar-stable {{ hasChoose && !isDanshi ?'active':'' }}">
+    <em class="text-center submit-button {{isDanshi && beforesubmited ? '': 'isDanshi'}} {{isfocus?'textareasubmitactive':''}}"
+        ng-click="textareaSubmit()">提交</em>
+    <ul class="custompluse" ng-class="{ titleText : extraisShow}">
+        <li class="pluseitem" ng-click="customMutiple(-10,$event)"><span class="n">-10</span></li>
+        <li class="pluseitem" ng-click="customMutiple(-1,$event)"><span class="n">-1</span></li>
+        <li class="pluseitem" ng-click="customMutiple(1,$event)"><span class="n">+1</span></li>
+        <li class="pluseitem" ng-click="customMutiple(10,$event)"><span class="n">+10</span></li>
+    </ul>
+    <div ng-hide="iseditor">
+        <div class="select-result">
+            <div class="result-title" ng-click="clickMutit($event)">
+                <span ng-class="{ titleText : extraisShow}">{{ shopCar.multiple == 1?"倍投x1": ('x'+shopCar.multiple) }}</span>
+                <input ng-class="{ titleInput : extraisShow}" type="tel" disabled ng-model="shopCar.multiple"
+                       ng-init="shopCar.multiple=1"
+                       ng-value="shopCar.multiple ">
+            </div>
+
+            <dl class="result-money" ng-click="setBukets(isDanshi ? 'imadanshi':undefined)">
+                <dt>已选{{ shopCar.count }}注x{{ shopCar.onePrice * shopCar.moneyUnit }}元</dt>
+                <dd>{{ shopCar.count * shopCar.onePrice * shopCar.moneyUnit * shopCar.multiple}}元</dd>
+            </dl>
+            <span class="result-plus"
+                  ng-click="setBukets(isDanshi ? 'imadanshi':undefined)">{{isDanshi ? ' ':'+'}}</span>
+        </div>
+        <div class="result-next {{isDanshi?'result-next2':''}}" ng-click="goBucket()">{{isDanshi?'确定':'号码篮'}}<span
+                ng-show="ballBucket.length"
+                class="result-count">{{ ballBucket.length }}</span>
+        </div>
+    </div>
+
+    <div ng-show="iseditor">
+        <div class="select-result select-result2">
+            <div class="result-title" ng-click="clickMutit($event)">
+                <span ng-class="{ titleText : extraisShow}">
+                    {{ shopCar.multiple == 1?"倍投x1": ('x'+ shopCar.multiple) }}
+                </span>
+                <input ng-class="{ titleInput : extraisShow}" type="tel" disabled ng-model="shopCar.multiple"
+                       ng-init="shopCar.multiple=1"
+                       ng-value="shopCar.multiple ">
+            </div>
+            <span ng-click="goBucket(true)" class="comfirm">确定</span>
+        </div>
+    </div>
+</div>
+<!--footer结束-->
 </ion-view>
