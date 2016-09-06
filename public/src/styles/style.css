@@ -69,7 +69,8 @@
     overflow: hidden;
     position: absolute;
     top:-100%;
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     background: #ffffff;
     z-index: 10;
     border-bottom: 4px solid #088;
@@ -78,6 +79,21 @@
 }
 .ar-poptype.active{
 	top:44px;
+	overflow: visible;
+}
+.ar-poptype-curtion{
+	position: absolute;
+	left: 0;
+	top:0px;
+	bottom: 0;
+	right: 0;
+	background: rgba(0,0,0,0.6);
+	width:100%;
+	height: 0px;
+}
+.ar-poptype-curtion.active{
+	height: 1400px;
+	z-index: 2;
 }
 
 .ar-poptype .row .mytitle {
@@ -169,7 +185,17 @@
     z-index: 1;
 }
 .game-history .curtion{
-
+	position: absolute;
+	left:0;
+	top:0;
+	right: 0;
+	bottom: 0;
+	background:rgba(0,0,0,0.6);
+	width:100%;
+	height: 0px;
+}
+.game-history .curtion.active{
+	height: 1136px;
 }
 
 .history-bar {
@@ -341,6 +367,11 @@
     font-size: 24px;
     font-weight: 900;
     color:#c1c1c1;
+}
+.ball-list li.dds{
+	float:none;
+	width:auto;
+	border-radius: 8px;
 }
 
 @media screen  and (min-device-width: 321px) and (max-device-width: 375px) {

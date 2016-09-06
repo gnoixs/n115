@@ -23,7 +23,7 @@
 	    </div>
 <!--更多选项结束-->	
 <!--游戏玩法开始-->
-	<div class="ar-poptype" onscroll="true" ng-class="{active: poptypeshow}">
+	<div class="ar-poptype" onscroll="true" ng-class="{active: poptypeshow}">	
         <div class="row">
             <div class="col mytitle {{i == choosedType ? 'active':''}}" ng-repeat="(i,gameMethods) in gameMethodsGroup" ng-click="slideChange(i,gameMethods)">
                 <span>{{gameMethods.title}}</span>
@@ -43,64 +43,65 @@
             </ion-slide>
         </ion-slide-box>
     </div>
+    <div class="ar-poptype-curtion" ng-class="{active: poptypeshow}"></div>
 <!--游戏玩法结束-->
 
 <!--开奖历史开始-->
-<div class="game-history {{isDanshi? 'isDanshi':'' }}">
-    <div class="history-bar">     
-	    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
-	    <span class="ai-random" ng-click="getRandom()">机选</span>      
-    </div>
+<div class="game-history {{singleMode? 'singleMode':'' }}">
+	<div class="curtion"  ng-class="{active: historyShow}">
+	    <div class="history-bar">     
+		    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
+		    <span class="ai-random" ng-click="getRandom()">机选</span>      
+	    </div>
 
-    <div class="history-box">
-        <table cellpadding="0" cellspacing="0" ng-show="historyShow">
-            <tr>
-                <th>期号</th><th>开奖结果</th><th>跨度</th><th>和值</th><th>超级2000</th>
-            </tr>
-            <tbody>
-	            <!--<tr ng-repeat="item in historyRecord">
-	                <td>{{item.webIssueCode}}</td>
-	                <td>{{item.numberRecord}}</td>
-	                <td>{{item.kuadu}}</td>
-	                <td>{{item.totValue}}</td>
-	                <td><spen class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></spen></td>
-	            </tr>-->
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-				<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-	            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-            </tbody>
-        </table>
-        <a href="#" class="viewmore" ng-show="historyShow">查看更多</a>
-        <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}" ng-click="showRecord10()"></span>
+	    <div class="history-box">
+	        <table cellpadding="0" cellspacing="0" ng-show="historyShow">
+	            <tr>
+	                <th>期号</th><th>开奖结果</th><th>跨度</th><th>和值</th><th>超级2000</th>
+	            </tr>
+	            <tbody>
+		            <!--<tr ng-repeat="item in historyRecord">
+		                <td>{{item.webIssueCode}}</td>
+		                <td>{{item.numberRecord}}</td>
+		                <td>{{item.kuadu}}</td>
+		                <td>{{item.totValue}}</td>
+		                <td><spen class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></spen></td>
+		            </tr>-->
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+	            </tbody>
+	        </table>
+	        <a href="#" class="viewmore" ng-show="historyShow">查看更多</a>
+	        <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}" ng-click="showRecord10()"></span>
+	    </div>
     </div>
 </div>
 <!--开奖历史结束-->    
 <!--选球界面开始-->
 <ion-content  class="has-footer has-header" delegate-handle="mainScroll" style="top:77px;">
-	<div class="number-select-content {{isDanshi? 'isDanshi':'' }}">
-		<div ng-repeat="arr in [1,2,3]">
-			<div class="number-select-list" ng-repeat="ballTree in ballTrees">
-			    <div class="list-top">
-			        <h3>{{ ballTree.h3 =='isEditor' ? '': ballTree.h3}}</h3>
-			        <ol>
-			            <li class="{{ val.cur ? 'active':''  }}" ng-repeat="(name,val) in ballTree.quick"
-			                ng-click="">{{ ballTree.quick[name] }}
-			            </li>
-			        </ol>
-			    </div>
-			    <ul class="ball-list">
-			        <li ng-repeat="ball in ballTree.balls" class="{{ balls[k] ? 'active':'' }}"  ng-click="result()">{{ball}}
-			        </li>
-			    </ul>
-			</div>
-		</div>
+	<div class="number-select-content" ng-hide="singleMode">
+		<div class="number-select-list" ng-repeat="ballTree in ballTrees.slice(0,modes.length)">
+		    <div class="list-top">
+		        <h3>{{ ballTree.h3 =='isEditor' ? '': ballTree.h3}}</h3>
+		        <ol>
+		            <li class="{{ q.active ? 'active':''}}" ng-repeat="q in ballTree.quick"
+		                ng-click="quick(ballTree,q)">{{q.content}}
+		            </li>
+		        </ol>
+		    </div>
+		    <ul class="ball-list">
+		        <li ng-repeat="ball in ballTree.balls.slice(ballTree.start,ballTree.end) track by $index" class="{{ballTree.start>10 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"  ng-click="result(ball)">{{ball.content}}
+		        </li>
+		    </ul>
+		</div>		
 	</div>
 
 <!--单式-->
