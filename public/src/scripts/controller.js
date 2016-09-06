@@ -213,10 +213,16 @@ angular.module('starter.controllers', ['ionic'])
        }
 
       $scope.quick = function(ballTree,q){
-        console.log(ballTree);
-        return;
-        for(var i = 0; i<ballTrees.length; i++){
-          arr[i].active = false;
+        for(var i = ballTree.start; i<ballTree.end; i++){
+          if(q.content == '双'){
+            if((i+1) % 2 == 0){
+              ballTree.balls[i].active = true;
+            }
+          }else if(q.content == '单'){
+            if(i % 2 == 0){
+              ballTree.balls[i].active = true;
+            }  
+          }
         }
         q.active = true;
       }
