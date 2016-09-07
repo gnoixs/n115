@@ -18,6 +18,10 @@ angular.module('starter.controllers', ['ionic'])
           start:0,
           end:11
         };
+        //号码篮
+        $scope.basket = {};
+        //选号记录
+        $scope.records = []; 
 
         $scope.ballTrees = [{
           h3:'选区一',
@@ -49,7 +53,8 @@ angular.module('starter.controllers', ['ionic'])
               { 'content' : '0单5双', 'active' : false }
             ],
           start:0,
-          end:11
+          end:11,
+          index:0
         },{
           h3:'选区二',
           quick:[
@@ -80,7 +85,8 @@ angular.module('starter.controllers', ['ionic'])
               { 'content' : '0单5双', 'active' : false }
             ],
           start:0,
-          end:11
+          end:11,
+          index:1
         },{
           h3:'选区三',
          quick:[
@@ -111,11 +117,10 @@ angular.module('starter.controllers', ['ionic'])
               { 'content' : '0单5双', 'active' : false }
             ],
           start:0,
-          end:11
+          end:11,
+          index:2
         }
         ];
-
-        $scope.results = [];
 
         //返回
         $scope.goBack = function(evt){                                          
@@ -152,10 +157,7 @@ angular.module('starter.controllers', ['ionic'])
         angular.element(evt.target).addClass('active');
         $scope.currentMethod = _gameType.mode+'.'+_gameType.parent+'.'+_gameType.name;
           if(/fushi$/.test(_gameType.name)){                    //复式
-               //$scope.ballTree.start = 0;
-              //$scope.ballTree.end = 11;
-
-              util.setArr($scope.ballTrees,0,11);
+            util.setArr($scope.ballTrees,0,11);
             if(_gameType.parent == 'dingweidan' || _gameType.parent == 'qiansanzhixuan' ){
               $scope.modes = [_gameType.mode,_gameType.parent,_gameType.name];
             }else if(_gameType.parent == 'qianerzhixuan'){
@@ -168,14 +170,10 @@ angular.module('starter.controllers', ['ionic'])
           }else if(/dantuo$/.test(_gameType.name)){             //胆拖
              $scope.modes = [_gameType.mode,_gameType.parent];
           }else if(_gameType.name == 'dingdanshuang'){          //定单双
-             //$scope.ballTree.start = 11;
-             //$scope.ballTree.end = 17;
              util.setArr($scope.ballTrees,11,17);
              $scope.modes = [$scope.currentMethod];
           }else if(_gameType.name == 'caizhongwei'){            //猜中位
              $scope.modes = [$scope.currentMethod];
-             //$scope.ballTree.start = 2;
-             //$scope.ballTree.end = 9;
              util.setArr($scope.ballTrees,2,9);
           }
           $scope.currentMethodTitle = phoenix.Games.N115.Config.pros.getTitleByName($scope.currentMethod).join('');
@@ -188,13 +186,21 @@ angular.module('starter.controllers', ['ionic'])
        }
 
        //点球
-       $scope.result = function(ball){
-
+       $scope.result = function(ballTree,ball){
+          //console.log(ballTree);
           ball.active = !ball.active;
-          console.log(ball);
+          //console.log(ball.active);
+          if(!$scope.basket[$scope.currentMethod]){
+            $scope.basket[$scope.currentMethod] = [];
+          }
+          $scope.basket[$scope.currentMethod].push(ball.content);
+          console.log($scope.basket);
        }
-
+       //大小单双全清
       $scope.quick = function(ballTree,q){
+        for(var i = 0; i<ballTree.quick.length;i++){
+          ballTree.quick[i].active = false;
+        }
         for(var i = ballTree.start; i<ballTree.end; i++){
           if(q.content == '双'){
             if((i+1) % 2 == 0){
@@ -204,6 +210,18 @@ angular.module('starter.controllers', ['ionic'])
             if(i % 2 == 0){
               ballTree.balls[i].active = true;
             }  
+          }else if(q.content == '全'){
+            ballTree.balls[i].active = true;
+          }else if(q.content == '大'){
+            if(i > 4){
+              ballTree.balls[i].active = true;
+            }
+          }else if(q.content == '小'){
+              if(i < 5){
+                ballTree.balls[i].active = true;
+              }
+          }else if(q.content == '清'){
+            ballTree.balls[i].active = false;
           }
         }
         q.active = true;

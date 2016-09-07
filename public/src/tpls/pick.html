@@ -65,7 +65,7 @@
 		                <td>{{item.numberRecord}}</td>
 		                <td>{{item.kuadu}}</td>
 		                <td>{{item.totValue}}</td>
-		                <td><spen class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></spen></td>
+		                <td><span class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></span></td>
 		            </tr>-->
 		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
 					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
@@ -98,7 +98,7 @@
 		        </ol>
 		    </div>
 		    <ul class="ball-list">
-		        <li ng-repeat="ball in ballTree.balls.slice(ballTree.start,ballTree.end) track by $index" class="{{ballTree.start>10 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"  ng-click="result(ball)">{{ball.content}}
+		        <li ng-repeat="ball in ballTree.balls.slice(ballTree.start,ballTree.end) track by $index" class="{{ballTree.start>10 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"  ng-click="result(ballTree,ball)">{{ball.content}}
 		        </li>
 		    </ul>
 		</div>		
