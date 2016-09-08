@@ -88,17 +88,17 @@
 <!--选球界面开始-->
 <ion-content  class="has-footer has-header" delegate-handle="mainScroll" style="top:77px;">
 	<div class="number-select-content" ng-hide="singleMode">
-		<div class="number-select-list" ng-repeat="ballTree in ballTrees.slice(0,modes.length)">
+		<div class="number-select-list" ng-repeat="bt in ballTree">
 		    <div class="list-top">
-		        <h3>{{ ballTree.h3 =='isEditor' ? '': ballTree.h3}}</h3>
+		        <h3>{{ bt.h3 =='isEditor' ? '': bt.h3}}</h3>
 		        <ol>
-		            <li class="{{ q.active ? 'active':''}}" ng-repeat="q in ballTree.quick"
-		                ng-click="quick(ballTree,q)">{{q.content}}
+		            <li class="{{ q.active ? 'active':''}}" ng-repeat="q in bt.quick"
+		                ng-click="quick(bt,q)">{{q.cnt}}
 		            </li>
 		        </ol>
 		    </div>
 		    <ul class="ball-list">
-		        <li ng-repeat="ball in ballTree.balls.slice(ballTree.start,ballTree.end) track by $index" class="{{ballTree.start>10 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"  ng-click="result(ballTree,ball)">{{ball.content}}
+		        <li ng-repeat="ball in bt.balls" class="{{ballTree.start>10 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"  ng-click="chooseBall(ballTree,ball,bt)">{{ball.cnt}}
 		        </li>
 		    </ul>
 		</div>		
@@ -159,8 +159,8 @@
             </div>
 
             <dl class="result-money" ng-click="setBukets(isDanshi ? 'imadanshi':undefined)">
-                <dt>已选{{ shopCar.count }}注x{{ shopCar.onePrice * shopCar.moneyUnit }}元</dt>
-                <dd>{{ shopCar.count * shopCar.onePrice * shopCar.moneyUnit * shopCar.multiple}}元</dd>
+                <dt>已选{{ count }}注x{{ unitPrice }}元</dt>
+                <dd>{{ count * unitPrice * multiple | number:1}}元</dd>
             </dl>
             <span class="result-plus"
                   ng-click="setBukets(isDanshi ? 'imadanshi':undefined)">{{isDanshi ? ' ':'+'}}</span>
