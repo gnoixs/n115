@@ -443,7 +443,6 @@
     bottom: 100%;
     width: 100%;
     overflow: hidden;
-    display: none;
 }
 
 .custompluse .pluseitem {
@@ -486,7 +485,9 @@
     left: 0;
     float:left;
     padding: 0;
-    /*background: #fd9009;*/
+}
+.select-result.hasBall{
+	background: #fd9009;
 }
 .select-result .result-title{
 	height: 63px;
@@ -511,6 +512,7 @@
     border-radius: 4px;
     -webkit-border-radius: 4px;
     font-size: 14px;
+    margin-top:12px;
     display: none;
 }
 
