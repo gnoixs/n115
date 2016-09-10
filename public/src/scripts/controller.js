@@ -23,6 +23,7 @@ angular.module('starter.controllers', ['ionic'])
         //号码篮
         $rootScope.basket = {};
         
+
         //设置默认的选球界面
         $scope.ballTree = util.buildUI([phoenix.Games.N115.Config.pros.getTitleByName( $scope.currentMethod)[0].substr(1)]);
         $scope.ballTree.choosenum = util.getChooseNumber($scope.currentMethod);
@@ -133,7 +134,7 @@ $scope.setBukets = function(isdanshi){
     return;
   }
 
-        if($scope.count > 0 ){      //说明有合法注单
+        if($scope.count > 0 ){        //说明有合法注单
           if(!$scope.ballTree.betsArr){
             $scope.ballTree.betsArr = [];        
           }else{
@@ -149,7 +150,8 @@ $scope.setBukets = function(isdanshi){
         util.clearBalls($scope.ballTree);
         $scope.count = util.setBets($scope.currentMethod,$scope.ballTree) || 0;
         $scope.hasBall = util.hasBall($scope.ballTree);
-        $rootScope.basket[$scope.currentMethod].title = $scope.currentMethodTitle;
+
+        $rootScope.basket[$scope.currentMethod].title = $scope.currentMethodTitle;        
         $rootScope.globalCount = util.getGlobalCount($rootScope.basket);
 
           //console.log($scope.ballTree.bets,$scope.ballTree.betsArr);
@@ -354,13 +356,19 @@ $scope.goBucket = function(){
       }
 
     }])
-.controller('drawCtrl', ['$rootScope','$scope', function ($rootScope,$scope) {
-  console.log($rootScope.basket);
+.controller('drawCtrl', ['$rootScope','$scope','util', function ($rootScope,$scope,util) {
+  //console.log($rootScope.basket);
+  $scope._bets = util.formatBets($rootScope.basket);          //格式化所有注单信息; 
   $rootScope.globalMultiple = 1;
   $rootScope.continuesBet = 1;
   $scope.goBack = function(){
     location.href = '/#/pick';
   }
+ 
+
+ 
+    
+
 }])
 .controller('submitCtrl',  ['$scope', function ($scope) {
 
@@ -596,9 +604,60 @@ $scope.goBucket = function(){
         getGlobalCount:function(trees){   //获取中的注数
           var counts = 0;
           for(var p in trees){
-            counts += trees[p]['betsArr'].length;
+            if(trees[p]['betsArr']){
+              counts += trees[p]['betsArr'].length;
+            }
           }
           return counts;
+        },
+        formatBets:function(tree){
+          var bets = [];
+          for(var pro in tree){
+            if(!tree[pro]['betsArr']){
+              continue;
+            }
+            for(var i = 0; i <tree[pro]['betsArr'].length; i++){
+              //一个注单
+              var obj = {type:pro};
+              obj.title = tree[pro]['title'];
+              obj.choosenum = tree[pro]['choosenum'];
+              obj.bet = '';
+              for(var j = 0 ; j < tree[pro]['betsArr'][i].length; j++){
+                //console.log(tree[pro]['betsArr'][i][j]);
+                if(tree[pro]['betsArr'][i].length == 1){
+                   obj.bet  += tree[pro]['betsArr'][i][j].join(',');
+                }else if(tree[pro]['betsArr'][i].length == 2){
+                  //console.log(tree[pro]['betsArr'][i][j].join(' '));
+                  if(/dantuo$/.test(obj.type)){
+                    if(j == 0){
+                      obj.bet += '[胆'+tree[pro]['betsArr'][i][j].join(',')+'] ';
+                    }else{
+                      obj.bet += tree[pro]['betsArr'][i][j].join(',');
+                    }
+                  }else{
+                    var str = tree[pro]['betsArr'][i][j].join(' ');
+                    obj.bet += str + ',';
+                    if(j == 1){
+                      obj.bet += '-,-,-';
+                    }
+                  }            
+                }else if(tree[pro]['betsArr'][i].length == 3){
+                   var str = tree[pro]['betsArr'][i][j].join(' ');
+                   if(str == ''){
+                    str = '-';
+                   }
+                   obj.bet += str + ',';
+                   if(j == 2){
+                    obj.bet += '-,-';
+                   }
+                }
+              }
+              obj.count = tree[pro]['betsArr'][i]['count'];
+              obj.multiple = tree[pro]['betsArr'][i]['multiple'];
+              bets.unshift(obj);
+            }       
+          }
+          return bets;
         }
       }
     })

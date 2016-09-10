@@ -16,13 +16,13 @@
 
             <div class="result-list">
                 
-                <ul class="scheme-list">
+                <!-- <ul class="scheme-list">
                 	<div  ng-repeat="(key,objarr) in basket track by $index">
 	                    <li class="scheme {{obj.isDanshi? 'scheme2':''}}" ng-repeat="obj in objarr.betsArr track by $index"
 	                        ng-click="editLottory(obj)">
 	                        <dl>
 	                            <dt>
-	                            	<span  ng-repeat="o in obj track by $index">{{o.join(',')}}</span>
+	                            	<span  ng-repeat="o in obj track by $index">{{obj.length == 1 ? o.join(',') : o.join(' ')}},</span>
 	                            </dt>
 	                            <dd>{{objarr.title}} {{obj.count }}注x{{ unitPrice }}元</dd>
 	                        </dl>
@@ -34,8 +34,25 @@
 	                        <span class="scheme-delete" ng-click="removeBucketItem(i,$event)"></span>
 	                    </li>
                     </div>
+                </ul> -->
+                <ul class="scheme-list">
+	                    <li class="scheme {{obj.isDanshi? 'scheme2':''}}" ng-repeat="obj in _bets track by $index"
+	                        ng-click="editLottory(obj)">
+	                        <dl>
+	                            <dt>
+	                            	{{obj.bet}}
+	                            </dt>
+	                            <dd>{{obj.title}} {{obj.count }}注x{{ unitPrice}}元</dd>
+	                        </dl>
+	                        <span class="scheme-multiple">
+	                        	<button>{{1782}}</button>
+	                            {{ obj.multiple }}倍
+	                        </span>
+
+	                        <span class="scheme-delete" ng-click="removeBucketItem(i,$event)"></span>
+	                    </li>
+                    </div>
                 </ul>
-            </div>
         </div>
     </ion-content>
   <!--追号,加倍-->
