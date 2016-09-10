@@ -47,7 +47,7 @@
 <!--游戏玩法结束-->
 
 <!--开奖历史开始-->
-<div class="game-history {{singleMode? 'singleMode':'' }}">
+<div class="game-history {{singleMode?'hide':'' }}">
 	<div class="curtion"  ng-class="{active: historyShow}">
 	    <div class="history-bar">     
 		    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
@@ -105,29 +105,27 @@
 	</div>
 
 <!--单式-->
-	<div class="number-select-content number-select-content2 {{singleMOde? '': 'singleMOde'}}" style="display:none;">
-	    <div class="row option-label {{beforesubmited?'':'beforesubmited'}}">
+	<div class="number-select-content {{ singleMode ? '':'number-select-content2'}}">
+	    <div class="row option-label" ng-hide="beforesubmited">
 	        <div class="col label">请输入注单:</div>
 	        <div ng-click="helprule()" class="col">帮助</div>
 	        <div ng-click="clearVal()" class="col">清空</div>
 	    </div>
 
-	    <div class="row option-label {{beforesubmited?'beforesubmited':''}}">
+	    <div class="row option-label" ng-hide="!beforesubmited">
 	        <div class="col label">请输入注单:</div>
 	        <div ng-click="helprule()" class="col">规则</div>
 	        <div ng-click="cancelSubmited()" class="col">返回</div>
 	    </div>
 
 	    <div class="number-select-content-danshi">
-	        <!--说明：<br>1、请参照"标准格式样本"格式录入或上传方案。<br>2、每一注号码之间的间隔符支持
-	            回车 空格[ ] 逗号[,] 分号[;] 冒号[:] 竖线 [|]<br>3、文件格式必须是.txt格式。<br>4、文件较大时会导致上传时间较长，请耐心等待！<br>5、将文件拖入文本框即可快速实现文件上传功能。<br>6、导入文本内容后将覆盖文本框中现有的内容。-->
-	        <p id="tips-danshi" class="tips-danshi" style="color:#888;font-size:12px;line-height:170%;">
+	        <p class="tips-danshi" ng-show="ShowtextareaTip">
 	            1.输入的注单请参照如下规则：单注内各号码保持相连，不同注号码间用分隔符隔开;<br>
 	            2.分隔符支持：回车[ ]空格[ ]逗号[,]分号[;]冒号[:]竖线[|];<br>
 	            3.文件较大时，提交注单可能需要一定时间，请耐心等待;
 	        </p>
 
-	        <textarea class="text-areas" ng-focus="textareaFocus()" ng-blur="textareaBlur()" rows="20"></textarea>
+	        <textarea class="text-areas" ng-focus="textareaFocus()" ng-blur="textareaBlur()" ng-model="$parent.input" rows="20"></textarea>
 	    </div>
 	    <div ng-show="hasDanshiErrror">
 	        <div class="showtextarea-err" ng-click="showtextareaError()">
@@ -141,7 +139,7 @@
 
 <!--footer开始-->
 <div class="bar bar-footer bar-stable {{ hasChoose && !singleMOde ?'active':'' }}">
-    <em class="text-center submit-button {{singleMOde && beforesubmited ? '': 'singleMOde'}} {{isfocus?'textareasubmitactive':''}}"
+    <em class="text-center submit-button  {{isFocus?'active':''}}" ng-hide="beforesubmited"
         ng-click="textareaSubmit()">提交</em>
     <ul class="custompluse" ng-hide="extraisShow">
         <li class="pluseitem" ng-click="customMutiple(-10,$event)"><span class="n">-10</span></li>
@@ -158,14 +156,14 @@
                        ng-value="multiple">
             </div>
 
-            <dl class="result-money" ng-click="setBukets(singleMOde ? 'imadanshi':undefined)">
+            <dl class="result-money" ng-click="setBukets(singleMode ? 'false' : undefined)">
                 <dt>已选{{ count }}注x{{ unitPrice }}元</dt>
                 <dd>{{ count * unitPrice * multiple | number:1}}元</dd>
             </dl>
             <span class="result-plus"
                   ng-click="setBukets(singleMOde ? 'imadanshi':undefined)">{{singleMOde ? ' ':'+'}}</span>
         </div>
-        <div class="result-next {{singleMOde?'result-next2':''}}" ng-click="goBucket()">{{singleMOde?'确定':'号码篮'}}<span
+        <div class="result-next {{singleMOde?'result-next2':''}}" ng-click="goBucket()">{{singleMode?'确定':'号码篮'}}<span
                 ng-show="globalCount"
                 class="result-count">{{ globalCount }}</span>
         </div>

@@ -22,7 +22,31 @@ angular.module('starter.controllers', ['ionic'])
 
         //号码篮
         $rootScope.basket = {};
+
+
+        //单式
+         $scope.beforesubmited = true;
+         $scope.ShowtextareaTip = true;
+         $scope.input = '';
+         $scope.textareaFocus = function(){   //聚焦
+          $scope.isFocus = true;
+          $scope.ShowtextareaTip = false;
+         }
         
+        $scope.textareaBlur = function(){     //失焦
+          if($scope.input.length == 0){
+            $scope.isFocus = false;
+          }
+        }
+
+        $scope.textareaSubmit = function(){     //提交输入的内容
+          if($scope.isFocus){   //表示可提交
+
+          }else{        //表示没有输入值
+            alert('值错误')
+          }
+        }
+
 
         //设置默认的选球界面
         $scope.ballTree = util.buildUI([phoenix.Games.N115.Config.pros.getTitleByName( $scope.currentMethod)[0].substr(1)]);
@@ -89,7 +113,7 @@ angular.module('starter.controllers', ['ionic'])
                arr = util.getRandArr($scope.ballTree.choosenum);
              }
           }else if(/danshi$/.test(typeSplits[typeSplits.length-1])){  //应该不会用到 
-            console.log('单式');
+            
           }else if(/dantuo$/.test(typeSplits[typeSplits.length-1])){  //两组
             arr = [[],[]];
             var temp = util.getRandArr($scope.ballTree.choosenum);
@@ -200,6 +224,7 @@ $scope.goBucket = function(){
         $scope.singleMode = false;
         $scope.ballTree  = [];
         danma = [];
+        $scope.beforesubmited = true;     //单式的提交按钮
         //$scope.hasBall = false;
 
        //大小单双全清的样式切换
@@ -240,6 +265,20 @@ $scope.goBucket = function(){
           }
           }else if(/danshi$/.test(_gameType.name)){             //单式
             $scope.singleMode = true;
+            $scope.beforesubmited = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
             //该模式下有两组球
           }else if(/dantuo$/.test(_gameType.name)){             //胆拖
             $scope.ballTree = util.buildUI(['胆码','拖码']);
@@ -492,7 +531,7 @@ $scope.goBucket = function(){
              }
 
           }else if(/danshi$/.test(typeSplits[typeSplits.length-1])){  //应该不会用到 
-            console.log('单式');
+            
           }else if(/dantuo$/.test(typeSplits[typeSplits.length-1])){
             var arr = [],arr1 = [];
             for(var i = 0; i < tree[0].balls.length; i++){
