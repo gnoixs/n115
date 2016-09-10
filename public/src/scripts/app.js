@@ -7,6 +7,7 @@ angular.module('app',['ionic','ngResource','starter.controllers']).run(['$ionicP
 		$stateProvider.state('pick', {					//选号
 				url         : '/pick',
 				templateUrl : 'src/tpls/pick.html',
+				//templateUrl : 'src/tpls/draw.html',
 				controller  : 'pickCtrl'
 		}).state('draw', {								//投注
 			url          : '/draw',

@@ -587,3 +587,278 @@
     top: 50%;
     margin-top: -11px;
 }
+
+/**号码篮*/
+
+.bg-drawing{
+	top:98px;
+}
+
+/**倍数 连开*/
+.extra-operate {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: -14px;
+    background: #fff;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, .2);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 6px 5px;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.extraOperateShow {
+    bottom: 80px;
+    text-align: center;
+}
+
+.extra-box {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    vertical-align: middle;
+}
+
+.extra-box label,
+.extra-box p,
+.extra-box span,
+.extra-box input {
+    display: inline-block;
+}
+
+.extra-box label {
+    font-size: 14px;
+}
+
+.extra-box p {
+    border: 1px solid #dcdcdc;
+    margin: 0px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, .3) inset;
+    padding: 3px 4px;
+}
+
+.extra-box input {
+    max-width: 28px;
+    text-align: center;
+    border: 0px;
+    background: none;
+}
+
+.op-plus,
+.op-minus {
+    display: block;
+    font-size: 20px;
+    color: #088;
+    font-weight: 500;
+    border-radius: 3px;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, .3);
+    text-align: center;
+    height: 28px;
+    line-height: 25px;
+    vertical-align: middle;
+    width: 28px;
+    background: #fafafa;
+    margin-top: -2px;
+}
+
+.op-plus:active,
+.op-minus:active {
+    background: #f7f6f4;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, .3);
+}
+
+.result-confirm:after {
+    content: '';
+    display: block;
+    width: 23px;
+    height: 18px;
+    background: url(/src/imgs/icon-confirm.png) no-repeat center center;
+    background-size: 100% auto;
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+}
+.zhuihao{
+	background:#f5f5f5;
+	height: 32px;
+	line-height: 27px;
+	position:absolute;
+	bottom: 49px;
+    width: 100%;
+    text-align: center;
+    clear:both;
+}
+.zhuihao label {
+    height: 18px;
+    line-height: 18px;
+    vertical-align: middle;
+}
+.zhuihao input[type=checkbox] {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+/*号码篮按钮*/
+.result-box {
+    background-color: #f5f5f5;
+    padding-bottom: 70px;
+    min-height: 100%;
+}
+
+.result-operate {
+    text-align: center;
+    position: relative;
+    top:44px;
+    z-index: 2;
+    background: #f5f5f5;
+}
+
+.ar-btn {
+    border: 1px solid #088;
+    display: inline-block;
+    border-radius: 3px;
+    padding: 8px 16px;
+    margin: 8px 6px;
+    min-width: 90px;
+    cursor: pointer;
+    color: #088;
+    border-color: #088;
+    background-color: #d0ecea;
+    background-image: linear-gradient(180deg,#fff,#d0ecea);
+}
+
+.ar-btn:active {
+    background-image: none;
+}
+
+/*注单列表*/
+.result-list {
+    padding: 0px 7px;
+    clear:both;
+}
+
+.result-list-shadow {
+	width: 98%;
+    border-radius: 3px;
+    height: 5px;
+    background-color: #ccc;
+    box-shadow: 0 0 2px #fbefde;
+    position: relative;
+    z-index: 2;
+    top: 42px;
+    left: 1%;
+
+}
+
+.scheme-list {
+    margin: -2px 3px 0;
+    margin-bottom: 30px;
+}
+
+.scheme-list .scheme {
+    border-bottom: 1px dashed #eee;
+    border-left: 1px solid #dfd7cb;
+    border-right: 1px solid #dfd7cb;
+    background-color: #fff;
+    padding: 8px 30px 8px 25px;
+    position: relative;
+    color: #666;
+    overflow: hidden;
+    vertical-align: middle;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.scheme-list li:first-child {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.scheme:before {
+    font-family: "Ionicons";
+    color: #c5c5c5;
+    content: "\f3cf";
+    font-size: 24px;
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    margin-top: -12px;
+}
+
+.scheme dl {
+    float: left;
+    min-width: 140px;
+    max-width: 80%;
+    margin: 0px;
+}
+
+.scheme dl dt {
+    color: #088;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding-right: 40px;        
+}
+
+.scheme dl dt,
+.scheme dl dd {
+    padding: 3px 0px;
+}
+
+.scheme-multiple {
+    position: absolute;
+    line-height: 14px;
+    font-size: 14px;
+    right: 40px;
+    top: 50%;
+    margin-top: -7px;
+    vertical-align: middle;
+    color: #666;
+}
+.scheme-multiple button{
+	font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: #088;
+    border: 0;
+    padding: 1px 8px;
+    margin: 0 5px 0 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.scheme-delete {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0px;
+    top: 0%;
+    height: 100%;
+    padding-right: 15px;
+}
+
+.scheme-delete:after {
+    font-family: "Ionicons";
+    color: #c5c5c5;
+    content: "\f404";
+    font-size: 40px;
+    display: inline-block;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    margin-top: -10px;
+}
