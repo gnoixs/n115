@@ -1,5 +1,5 @@
 angular.module('starter.controllers', ['ionic'])
-    .controller('pickCtrl', ['$rootScope','$scope', '$ionicSlideBoxDelegate','util', function ($rootScope, $scope,$ionicSlideBoxDelegate,util) {                 //选球控制器
+    .controller('pickCtrl', ['$rootScope','$scope', '$ionicSlideBoxDelegate','$ionicPopup', '$timeout','util','Tip', function ($rootScope, $scope,$ionicSlideBoxDelegate,$ionicPopup, $timeout,util,Tip) {                 //选球控制器
         
         $scope.currentMethod = configData.defaultMethod;              //当前方法 xuanwu.renxuanwuzhongwu.fushi 
         $scope.currentMethodTitle = phoenix.Games.N115.Config.pros.getTitleByName( $scope.currentMethod).join('');      //获取默认标题
@@ -23,29 +23,219 @@ angular.module('starter.controllers', ['ionic'])
         //号码篮
         $rootScope.basket = {};
 
+        $scope.minute = '--';
+        $scope.second = '--';
+        $scope.time = new Date();
+        var time = util.getTimeout();
+       
+       
+        var timer = setInterval(function(){
+          if(time < 0){
+            new Tip('当前销售截止,进入下期购买').start();
+           time = util.getTimeout();
+            console.log(time);
+          }else{
+            $scope.minute = Math.floor(time/60);
+            $scope.second = time % 60;
+            if($scope.minute<10){
+              $scope.minute = '0'+$scope.minute;
+            }
+            if($scope.second<10){
+              $scope.second = '0'+$scope.second;
+            }
+            $scope.$apply();
+            time--;
+          }
+      },1000);
+
+
 
         //单式
          $scope.beforesubmited = true;
          $scope.ShowtextareaTip = true;
+         $scope.hasDanshiErrror = false;
          $scope.input = '';
+         $scope._input = '';
          $scope.textareaFocus = function(){   //聚焦
           $scope.isFocus = true;
           $scope.ShowtextareaTip = false;
          }
         
         $scope.textareaBlur = function(){     //失焦
-          if($scope.input.length == 0){
+
+          if($scope.input == ''){
             $scope.isFocus = false;
+            return false;
           }
-        }
 
+          $scope.ballTree.input = $scope.input;
+        }
+//提交
         $scope.textareaSubmit = function(){     //提交输入的内容
-          if($scope.isFocus){   //表示可提交
+          if($scope.input.length > 0){   //表示可提交
+             $scope.ballTree.input = $scope.input;
+             $scope._input = $scope.input;
+            if( !$scope.ballTree.bets){
+              $scope.ballTree.bets = [];
+            }
+            var inputs = $scope.ballTree.input.split(/[,|;:\t\n，：；]/g);
+            var errData = [];
+            var repeatData = [];
+            var result = [];
+            var arr = [];
+            for(var i = 0; i < inputs.length; i++){
+              var input = inputs[i].split(' ');
+              var _input = input.slice(0);                
+              var flag = true;
+              for(var j = 0; j < input.length; j++){
+                if(util.unique(input).length != $scope.ballTree.choosenum){    //长度不足
+                  errData.push(input);
+                  flag = false;
+                  break;
+                }
 
+                if(!/\d{2}/.test(input[j]) || input[j].length !=2){   //不是两位或不是数字
+                  errData.push(input);
+                  flag = false;
+                  break;
+                }else{
+                  if(+input[j] > 11){         //大于11的数字
+                      errData.push(input);
+                      flag = false;
+                      break;
+                    }
+                }
+              }
+             if(flag){            //表示输入合法 
+                var isReapeat = false;
+                for(var s = 0; s < arr.length; s++){  //先对自身进行过滤
+                  if(arr[s].toString() == input.sort().toString()){
+                   isReapeat = true;
+                   break;
+                  }
+                }    
+
+                if(!isReapeat){
+                  for(var k = 0; k < $scope.ballTree.bets.length; k++){   //对保存数据进行过滤
+                    for(var r = 0; r<$scope.ballTree.bets[k].length; r++){
+                      if($scope.ballTree.bets[k][r].toString() == input.toString()){
+                        isReapeat = true;
+                        break;
+                      }
+                    }
+                  }
+                } 
+                if(!isReapeat){
+                  arr.push(input);
+                }else{
+                  repeatData.push(_input);
+                }
+              }          
+            }
+            if(errData.length > 0 || repeatData.length > 0){
+              $scope.hasDanshiErrror = true;
+            }
+            $scope.ballTree.errData = errData;
+            $scope.ballTree.repeatData = repeatData;
+            $scope.ballTree.bets = arr; 
+            $scope.count = arr.length;   
+            
+            //console.log(errData,arr,repeatData,$scope.ballTree.bets);
+            $scope.input = '';
+            for(var v = 0; v < arr.length; v++){
+              $scope.input += arr[v].join(' ') + '\n';
+            }
+            $scope.beforesubmited = true;
+            angular.element('.text-areas').attr('disabled','disabled');
+
+            
+           
           }else{        //表示没有输入值
-            alert('值错误')
+            alert('请输入相应的值')
           }
         }
+//返回
+      $scope.cancelSubmited = function(){ 
+        $scope.input = $scope._input;
+        $scope.beforesubmited = false;
+        angular.element('.text-areas').removeAttr('disabled');
+      }
+
+//清空
+      $scope.clearVal = function(){
+        if($scope.input == ''){
+          return false;
+        }else{
+          $ionicPopup.confirm({
+             title: '是否清空所有注单',
+             template: '<p class="popup-param">清空注单:'+$scope.input+'</p>',
+             buttons: [
+                 {text: '取消'},
+                 {
+                     text: '确定',
+                     type: 'button-positive',
+                     onTap: function (e) {
+                         $scope.input = '';
+                     }
+                 }
+             ]
+         });
+        }
+      }
+
+//帮助
+      $scope.helprule = function(){
+        $ionicPopup.alert({
+            title: '温馨提示',
+            template: '<p   class="helpTip">1.输入的注单请参照如下规则：单注内各号码保持相连，不同注号码间用分隔符隔开;<br>2.分隔符支持：回车[ ]空格[ ]逗号[,]分号[;]冒号[:]竖线[|];<br>3.文件较大时，提交注单可能需要一定时间，请耐心等待;</p>',
+            buttons: [
+                {text: '确定', type: 'button-positive'}
+            ]
+        });
+      }
+
+//错误项
+    $scope.showtextareaError = function(){
+      //var danshiData = self.$scope.danshiData;
+            var err = $scope.ballTree.errData.join(' ');
+            var rp = $scope.ballTree.repeatData.join(' ');
+            var tpl = "<div>错误项:<p class='fr'>" + err + "</p></div>";  
+            tpl += "<div>重复项:<p  class='fr' style='margin-top:-20px'>" + rp + "</p></div>";
+            $ionicPopup.alert({
+                title: '温馨提示',
+                template: tpl,
+                buttons: [
+                    {
+                        text: '确定',
+                        type: 'button-positive',
+                        onTap: function (e) {
+
+                        }
+                    }
+                ]
+            });
+    }      
+
+//玩法说明
+    $scope.showPlayInfo = function(){
+      $scope.menuShow = false;
+     util.getGameInfo($scope.ballTree.choosenum,$scope.currentMethod,1763,true); 
+    } 
+
+//元角模式切换
+    $scope.yuanjiao = function(){
+      $scope.menuShow = false;
+      if($rootScope.unitPrice == 2){
+        $rootScope.unitPrice = 0.2;
+        new Tip('已切换角模式').start();
+      }else{
+        $rootScope.unitPrice = 2;
+        new Tip('已切换元模式').start();
+      }
+    }
+
+
+
 
 
         //设置默认的选球界面
@@ -61,7 +251,8 @@ angular.module('starter.controllers', ['ionic'])
         }
 
        //玩法栏显示与隐藏
-       $scope.changeMethod = function(evt){                                     
+       $scope.changeMethod = function(evt){  
+         $scope.menuShow = false;                                   
          $scope.poptypeshow = !$scope.poptypeshow;
        }
        //右侧小导航显示与隐藏
@@ -69,8 +260,12 @@ angular.module('starter.controllers', ['ionic'])
         $scope.menuShow = !$scope.menuShow;
       }
        //显示最近10条开奖记录
-       $scope.showRecord10 = function(evt){
+       $scope.showRecord10 = function(){
          $scope.historyShow = !$scope.historyShow;
+       }
+       $scope.closeRecord10 = function(){
+        $scope.menuShow = false;
+        //$scope.historyShow = !$scope.historyShow;
        }
        //机选
        $scope.getRandom = function(evt){
@@ -153,16 +348,15 @@ angular.module('starter.controllers', ['ionic'])
       }
 
 //设置注单信息
-$scope.setBukets = function(isdanshi){
-  if(isdanshi){
-    return;
-  }
+$scope.setBukets = function(){
+        $scope.menuShow = false;
 
         if($scope.count > 0 ){        //说明有合法注单
           if(!$scope.ballTree.betsArr){
             $scope.ballTree.betsArr = [];        
           }else{
            if(util.isExsits($scope.ballTree.bets,$scope.ballTree.betsArr)){
+            new Tip('该注单已经存在！').start();
             return;
           }
         } 
@@ -177,12 +371,14 @@ $scope.setBukets = function(isdanshi){
 
         $rootScope.basket[$scope.currentMethod].title = $scope.currentMethodTitle;        
         $rootScope.globalCount = util.getGlobalCount($rootScope.basket);
-
+        $timeout(function() {
+          location.href='/#/draw';
+        }, 50);
           //console.log($scope.ballTree.bets,$scope.ballTree.betsArr);
 
         }else{          //非法注单
           if($scope.hasBall){         //选中了部分球
-            console.log('--');
+            util.getGameInfo($scope.ballTree.choosenum,$scope.currentMethod);
           }else{                    //没有选择任何球
             $scope.getRandom();
           }
@@ -211,6 +407,11 @@ $scope.goBucket = function(){
  }
 }
 
+//随机一注
+$scope.$on('random',function($event){
+  console.log('ok');
+})
+
 
 
        //游戏类型切换
@@ -221,10 +422,16 @@ $scope.goBucket = function(){
 
        //【--具体游戏切换-- 渲染界面】
        $scope.chooseGame = function(j,_gameType,evt){
+        if(!j){
+          $scope.poptypeshow = false;
+          $scope.menuShow = false; 
+          return;
+        }
         $scope.singleMode = false;
         $scope.ballTree  = [];
         danma = [];
         $scope.beforesubmited = true;     //单式的提交按钮
+        $scope.input = '';
         //$scope.hasBall = false;
 
        //大小单双全清的样式切换
@@ -239,6 +446,13 @@ $scope.goBucket = function(){
 
         //如果以前选择过就从以前的篮子里拿
         if($rootScope.basket[$scope.currentMethod]){
+          if(/danshi$/.test(_gameType.name)){
+            $scope.singleMode = true;
+            $scope.beforesubmited = false;
+            $scope.ShowtextareaTip = false;
+            angular.element('.text-areas').removeAttr('disabled');
+            $scope.input = $rootScope.basket[$scope.currentMethod].input;
+          }
           $scope.ballTree = $rootScope.basket[$scope.currentMethod];
           $scope.count = util.setBets($scope.currentMethod,$scope.ballTree) || 0;
           $scope.hasBall = util.hasBall($rootScope.basket[$scope.currentMethod]);
@@ -264,20 +478,12 @@ $scope.goBucket = function(){
             $scope.ballTree = util.buildUI([title]);
           }
           }else if(/danshi$/.test(_gameType.name)){             //单式
-            $scope.singleMode = true;
-            $scope.beforesubmited = false;
-
-
-
-
-
-
-
-
-
-
-
-
+             $scope.singleMode = true;
+             $scope.beforesubmited = false;
+             $scope.ShowtextareaTip = true;
+             angular.element('.text-areas').removeAttr('disabled');
+             $rootScope.basket[$scope.currentMethod] = $scope.ballTree;
+            
 
             //该模式下有两组球
           }else if(/dantuo$/.test(_gameType.name)){             //胆拖
@@ -303,6 +509,7 @@ $scope.goBucket = function(){
        //点球
        var danma = [];
        $scope.chooseBall = function(ballTree,ball,bt){
+        $scope.menuShow = false;
         ball.active = !ball.active;
         //胆拖
         if(bt.h3 == '胆码'){
@@ -398,12 +605,22 @@ $scope.goBucket = function(){
 .controller('drawCtrl', ['$rootScope','$scope','util', function ($rootScope,$scope,util) {
   //console.log($rootScope.basket);
   $scope._bets = util.formatBets($rootScope.basket);          //格式化所有注单信息; 
+  console.log($scope._bets);
   $rootScope.globalMultiple = 1;
   $rootScope.continuesBet = 1;
   $scope.goBack = function(){
     location.href = '/#/pick';
   }
  
+ //机选一注
+  $scope.getrandomBalls = function(){
+    console.log('---');
+    if(/danshi$/.test($scope.currentMethod)){
+      console.log('hah');
+    }else{
+      $scope.$broadcast('random','child');
+    }
+  }
 
  
     
@@ -416,7 +633,7 @@ $scope.goBucket = function(){
 .controller('bodyCtrl', ['$scope', function ($scope) {
 
 
-}]).factory('util',function(){  
+}]).factory('util',function($ionicPopup,Tip){  
   return{
     buildUI:function(titleArr,type){
      var eles = ['01','02','03','04','05','06','07','08','09','10','11','5单0双','4单1双','3单2双','2单3双','1单4双','0单5双','大','小','全','单','双','清'];
@@ -650,45 +867,59 @@ $scope.goBucket = function(){
           return counts;
         },
         formatBets:function(tree){
+          console.log(tree);
           var bets = [];
           for(var pro in tree){
             if(!tree[pro]['betsArr']){
               continue;
             }
+
             for(var i = 0; i <tree[pro]['betsArr'].length; i++){
               //一个注单
               var obj = {type:pro};
               obj.title = tree[pro]['title'];
               obj.choosenum = tree[pro]['choosenum'];
               obj.bet = '';
-              for(var j = 0 ; j < tree[pro]['betsArr'][i].length; j++){
-                //console.log(tree[pro]['betsArr'][i][j]);
-                if(tree[pro]['betsArr'][i].length == 1){
-                   obj.bet  += tree[pro]['betsArr'][i][j].join(',');
-                }else if(tree[pro]['betsArr'][i].length == 2){
-                  //console.log(tree[pro]['betsArr'][i][j].join(' '));
-                  if(/dantuo$/.test(obj.type)){
-                    if(j == 0){
-                      obj.bet += '[胆'+tree[pro]['betsArr'][i][j].join(',')+'] ';
+              if(/danshi$/.test(pro)){          //单式
+                for(var _i = 0; _i < tree[pro]['betsArr'][i].length; _i++){
+                  var str = '';
+                  str = tree[pro]['betsArr'][i][_i].join(' ');
+                  if(_i != tree[pro]['betsArr'][i].length-1){
+                    str += ',';
+                  }
+                  obj.bet += str;
+                }
+
+              }else{            //除了单式
+                for(var j = 0 ; j < tree[pro]['betsArr'][i].length; j++){
+                  //console.log(tree[pro]['betsArr'][i][j]);
+                  if(tree[pro]['betsArr'][i].length == 1){
+                     obj.bet  += tree[pro]['betsArr'][i][j].join(',');
+                  }else if(tree[pro]['betsArr'][i].length == 2){
+                    //console.log(tree[pro]['betsArr'][i][j].join(' '));
+                    if(/dantuo$/.test(obj.type)){
+                      if(j == 0){
+                        obj.bet += '[胆'+tree[pro]['betsArr'][i][j].join(',')+'] ';
+                      }else{
+                        obj.bet += tree[pro]['betsArr'][i][j].join(',');
+                      }
                     }else{
-                      obj.bet += tree[pro]['betsArr'][i][j].join(',');
-                    }
-                  }else{
-                    var str = tree[pro]['betsArr'][i][j].join(' ');
-                    obj.bet += str + ',';
-                    if(j == 1){
-                      obj.bet += '-,-,-';
-                    }
-                  }            
-                }else if(tree[pro]['betsArr'][i].length == 3){
-                   var str = tree[pro]['betsArr'][i][j].join(' ');
-                   if(str == ''){
-                    str = '-';
-                   }
-                   obj.bet += str + ',';
-                   if(j == 2){
-                    obj.bet += '-,-';
-                   }
+                      var str = tree[pro]['betsArr'][i][j].join(' ');
+                      obj.bet += str + ',';
+                      if(j == 1){
+                        obj.bet += '-,-,-';
+                      }
+                    }            
+                  }else if(tree[pro]['betsArr'][i].length == 3){
+                     var str = tree[pro]['betsArr'][i][j].join(' ');
+                     if(str == ''){
+                      str = '-';
+                     }
+                     obj.bet += str + ',';
+                     if(j == 2){
+                      obj.bet += '-,-';
+                     }
+                  }
                 }
               }
               obj.count = tree[pro]['betsArr'][i]['count'];
@@ -697,8 +928,94 @@ $scope.goBucket = function(){
             }       
           }
           return bets;
+        },
+        unique : function(arr){
+          var result = [];
+          for(var i = 0; i<arr.length; i++){
+            if(result.indexOf(arr[i]) == -1){
+              result.push(arr[i]);
+            }
+          }
+          return result;
+        },
+        getGameInfo:function(num,method,award,type){
+          var num = num;
+          var str = "任选"+num+"个号码为一注";
+          if((num == 2 && method.split('.')[1] == 'qianerzhixuan') || (num == 3 && method.split('.')[1] == 'qiansanzhixuan')){
+            str = "每位任选1个不同的号码为一注";
+          }else if(/dantuo$/.test(method)){
+            str = "选取"+num+"个号码为一注且胆码与脱码不同";
+          }
+          if(!type && !award){
+            new Tip(str).start();
+          }else{
+            if(/danshi$/.test(method)){
+
+              return;
+            }
+            $ionicPopup.confirm({
+               //title: '是否清空所有注单',
+               template: '<p style="color:#000;line-height:10px;">'+str+'</p><p style="color:#000;line-height:10px;">基础奖金'+award+'元</p>',
+               buttons: [
+                   {
+                      text: '查看玩法说明',
+                      onTap:function(e){
+                        console.log(1);
+                        
+                        //getGameInfo($scope.ballTree.choosenum,$scope.currentMethod,1763,true);
+                      }
+                    },
+                   {
+                       text: '关闭',
+                       type: 'button-positive',
+                       onTap: function (e) {
+                           
+                       }
+                   }
+               ]
+            });
+            angular.element('.popup-head').css('border-bottom','none');
+          } 
+          
+        },
+        getTimeout:function(){
+          var _h = new Date().getHours();
+          var _m = new Date().getMinutes() % 10;
+          if(_h >= 9 && _h < 10){             //9点到10点
+            time = 3600 - (_m * 60+ new Date().getSeconds()+1);
+          }else if(_h >=10 && _h <22){    //10点到22点
+            time = 600 - (_m * 60+ new Date().getSeconds()+1);
+            //time = 60 - (_m * 0+ new Date().getSeconds()+1);
+          }else if((_h>=22 &&_h<24)||(_h>=0 && _h<2)){    //22点到2点
+            time = 300 - (_m * 60+ new Date().getSeconds()+1);
+          }
+          return time;
         }
       }
+    }).factory('Tip',function(){
+      function tipAnimationo(word, dom) {
+            this.$dom = $('body')
+            this.word = word || '提示';
+        }
+
+        tipAnimationo.prototype = {
+            create: function () {
+                var _this = this;
+                var $ele = $('<div class="tips"></div>');
+                $ele.html(this.word);
+                this.$dom.append($ele);
+                $ele.fadeIn();
+                setTimeout(function () {
+                    $ele.fadeOut(function () {
+                        $ele.remove();
+                    });
+                }, 2000)
+            },
+            start: function (method) {
+                this.create();
+            }
+        };
+        return tipAnimationo;
     })
 
 

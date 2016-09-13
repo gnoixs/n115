@@ -15,7 +15,7 @@
 		<div class="ar-popmenu" ng-show="menuShow">
 	        <ul>
 	            <li><a href="#"> 走势图</a></li>
-	            <li ng-click="yuanjiao()">模式 {{ moneyUnit==1?"元":"角" }}</li>
+	            <li ng-click="yuanjiao()">模式 {{ unitPrice==2?"元":"角" }}</li>
 	            <li ng-click="fandian()"  ng-show="awardGroupRetStatus">奖金返点</li>
 	            <li ng-click="showPlayInfo()">玩法说明</li>
 	            <li><a href="#">电脑版</a></li>
@@ -43,14 +43,14 @@
             </ion-slide>
         </ion-slide-box>
     </div>
-    <div class="ar-poptype-curtion" ng-class="{active: poptypeshow}"></div>
+    <div class="ar-poptype-curtion" ng-class="{active: poptypeshow}" ng-click="chooseGame()"></div>
 <!--游戏玩法结束-->
 
 <!--开奖历史开始-->
 <div class="game-history {{singleMode?'hide':'' }}">
-	<div class="curtion"  ng-class="{active: historyShow}">
+	<div class="curtion"  ng-class="{active: historyShow}" ng-click="closeRecord10()">
 	    <div class="history-bar">     
-		    <span>距{{issueNumber}}期截止 <span class="timecount">{{issueMinitus}}分{{issueSeconed}}秒</span></span>
+		    <span>距{{issueNumber}}期截止 <span class="timecount">{{minute}}分{{second}}秒</span></span>
 		    <span class="ai-random" ng-click="getRandom()">机选</span>      
 	    </div>
 
@@ -86,7 +86,7 @@
 </div>
 <!--开奖历史结束-->    
 <!--选球界面开始-->
-<ion-content  class="has-footer has-header" delegate-handle="mainScroll" style="top:77px;">
+<ion-content  class="has-footer has-header" delegate-handle="mainScroll" style="top:77px;position:{{singleMode?'relative':'absolute';}}">
 	<div class="number-select-content" ng-hide="singleMode">
 		<div class="number-select-list" ng-repeat="bt in ballTree">
 		    <div class="list-top">
@@ -105,7 +105,7 @@
 	</div>
 
 <!--单式-->
-	<div class="number-select-content {{ singleMode ? '':'number-select-content2'}}">
+	<div class="number-select-content {{singleMode?'':'number-select-content2'}}">
 	    <div class="row option-label" ng-hide="beforesubmited">
 	        <div class="col label">请输入注单:</div>
 	        <div ng-click="helprule()" class="col">帮助</div>
@@ -156,12 +156,12 @@
                        ng-value="multiple">
             </div>
 
-            <dl class="result-money" ng-click="setBukets(singleMode ? 'false' : undefined)">
+            <dl class="result-money" ng-click="setBukets()">
                 <dt>已选{{ count }}注x{{ unitPrice }}元</dt>
                 <dd>{{ count * unitPrice * multiple | number:1}}元</dd>
             </dl>
             <span class="result-plus"
-                  ng-click="setBukets(singleMOde ? 'imadanshi':undefined)">{{singleMOde ? ' ':'+'}}</span>
+                  ng-click="setBukets()">{{singleMode ? ' ':'+'}}</span>
         </div>
         <div class="result-next {{singleMOde?'result-next2':''}}" ng-click="goBucket()">{{singleMode?'确定':'号码篮'}}<span
                 ng-show="globalCount"
