@@ -1,11 +1,6 @@
-[
+
   {
-    "isSuccess": "1"
-  },
-  {
-    "msg": ""
-  },
-  {
+    "isSuccess": "1",
+    "msg": "",
     "data": "request"
   }
-]

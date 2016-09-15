@@ -43,41 +43,47 @@
         };
 
 //数据请求接口
-/*
+
         // 提交用户奖金组设置的接口
 		//var saveBetAwardUrl = phoenix.Games.N115.Config.pros.getSaveProxyBetGameAwardGroupUrl();
-        var saveBetAwardUrl = '/configs/datas/saveBetAward.json';
+        var saveBetAwardUrl = '/src/datas/saveBetAward.json';
 
         // 提交投注接口
 		//var submitUrl = phoenix.Games.N115.Config.pros.submitUrl();
-        var submitUrl = '/configs/datas/submit.json';
+        var submitUrl = '/src/datas/submit.json';
 
         // 调用接口获取动态配置数据, 如投注倍数的限制等
 		//var dynamicConfigUrl = phoenix.Games.N115.Config.pros.getDynamicConfigUrl();
-        var dynamicConfigUrl = '/configs/datas/dynamicConfig.json';
+       /* var dynamicConfigUrl = '/configs/datas/dynamicConfig.json';
         configData.dynamicConfigUrl = dynamicConfigUrl;
         $.getJSON(dynamicConfigUrl, function(data){
             configData.gameLimits = data.data.gamelimit[0];
-        });
+        });*/
 
         // 调用接口获取近期开奖信息
 		//var gameChartUrl = 'http://em.dev03.com/game/chart/cqssc';
-        var gameChartUrl = '/configs/datas/gamechart.json';
+        var gameChartUrl = '/src/datas/history.json';
         $.getJSON(gameChartUrl, function(data){
-            configData.records = data.body.result;
+            configData.records = data;
         });
 
 
         // 调用接口获取用户账户余额
 		//var queryUserBalUrl = phoenix.Games.N115.Config.pros.getUserBalUrl();
-        var queryUserBalUrl = '/configs/datas/queryUserBal.json';
+        var queryUserBalUrl = '/src/datas/queryUserBal.json';
         $.getJSON(queryUserBalUrl, function (data){
-            configData.balance = data;
+            configData.balance = data.balance;
+        });
+
+        //获取期数
+        var queryTerm = '/src/datas/getTerm.json';
+        $.getJSON(queryTerm, function (data){
+            configData.term = data.term;
         });
 
         if(/#\/drawing|#\/submit|#\/intro/.test(location.hash)){
             location.hash = '#/pick';
-        }*/
+        }
      
 	</script>
 

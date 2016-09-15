@@ -1,3 +1,53 @@
-	<ion-view>
-		<p style="width:1000px; height: 1000px;background-color: red;">submit.html</p>
-	</ion-view>
+<ion-view>
+	<!--<div class="bar bar-header bar-stable">-->
+		<!--<a class="button button-icon icon ion-chevron-left" ng-click="goPick(true)"></a>-->
+		<!--<h1 class="title">投注成功</h1>-->
+	<!--</div>-->
+	<ion-header-bar class="bar-positive" align-title="center">
+		<a class="button button-icon ion-chevron-left" ng-click="goBack()"></a>
+		<h1 class="title">投注成功</h1>
+	</ion-header-bar>
+
+	<ion-content class="has-footer has-header bg-drawing" overflow-scroll="true" style="top:44px;">
+		<!--彩票方案操作-->
+		<div class="result-box">
+			<dl class="result-bet-info">
+				<dt>彩种名称</dt>
+				<dd>{{$root.info.name}}</dd>
+
+				<dt>期号</dt>
+				<dd>第{{$root.info.term}}期[追{{$root.info.continuesBet}}期]</dd>
+
+				<dt>投注金额</dt>
+				<dd>{{$root.info.money| number:1 }}元</dd>
+
+				<dt>投注内容</dt>
+				<dd></dd>
+			</dl>
+			<div class="result-list">
+				<div class="result-list-shadow" style="top:0px;"></div>
+				<ul class="{{_bets.length?'scheme-list':''}}">
+					<li class="scheme scheme2" ng-repeat="(i,obj) in _bets track by $index">
+						<dl>
+							<dt>
+								{{obj.bet}}
+							</dt>
+							<dd>{{obj.title}} {{obj.count }}注x{{ unitPrice}}元</dd>
+						</dl>
+	                        <span class="scheme-multiple">
+	                        	<button>{{$root.award}}</button>
+	                            {{$root.continuesBet > 1 ? $root.globalMultiple : obj.multiple * $root.globalMultiple }}倍
+	                        </span>
+						<span class="scheme-delete" ng-click="removeBucketItem(i,_bets,$event)"></span>
+					</li>
+			</div>
+			</ul>
+			</div>
+		</div>
+	</ion-content>
+
+	<div class="bar bar-footer bar-foot-submit-finished">
+		<button class="button button-full button-submit-finished" ng-click="goBack()">继 续 投 注</button>
+	</div>
+
+</ion-view>

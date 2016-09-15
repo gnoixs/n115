@@ -1,11 +1,11 @@
 <ion-view>
 <!--头部开始-->	
 	<ion-header-bar class="bar-positive" align-title="center">
-  		<a class="button button-icon ion-chevron-left" ng-hide="iseditor" ng-click="goBack()"></a>
+  		<a class="button button-icon ion-chevron-left" ng-hide="isEditor" ng-click="goBack()"></a>
 		<h1 class="title" ng-click="changeMethod($event)">{{ currentMethodTitle }}
 			<span class="icon ion-chevron-down 
 						{{ poptypeshow ? 'ion-chevron-up':'ion-chevron-down'}}"
-                  ng-hide="iseditor">
+                  ng-hide="isEditor">
             </span>
         </h1>
   		<a class="button button-icon icon ion-more" ng-click="menuShowHander()"></a>
@@ -50,37 +50,26 @@
 <div class="game-history {{singleMode?'hide':'' }}">
 	<div class="curtion"  ng-class="{active: historyShow}" ng-click="closeRecord10()">
 	    <div class="history-bar">     
-		    <span>距{{issueNumber}}期截止 <span class="timecount">{{minute}}分{{second}}秒</span></span>
+		    <span>距{{$root.term < 10 ? ('00'+$root.term) : ($root.term<100 ? ('0'+$root.term):$root.term)}}期截止 <span class="timecount">{{minute}}分{{second}}秒</span></span>
 		    <span class="ai-random" ng-click="getRandom()">机选</span>      
 	    </div>
 
 	    <div class="history-box">
 	        <table cellpadding="0" cellspacing="0" ng-show="historyShow">
 	            <tr>
-	                <th>期号</th><th>开奖结果</th><th>跨度</th><th>和值</th><th>超级2000</th>
+	                <th>期号</th><th>开奖号码</th><th>单:双</th><th>中位数</th>
 	            </tr>
 	            <tbody>
-		            <!--<tr ng-repeat="item in historyRecord">
-		                <td>{{item.webIssueCode}}</td>
-		                <td>{{item.numberRecord}}</td>
-		                <td>{{item.kuadu}}</td>
-		                <td>{{item.totValue}}</td>
-		                <td><span class="icon {{item.super2000?'ion-android-done':'ion-android-close'}}"></span></td>
-		            </tr>-->
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-					<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-		            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+		            <tr ng-repeat="item in historyRecord.slice(0,10)">
+		                <td>{{item.NO}}</td>
+		                <td>{{item.num}}</td>
+		                <td>{{item.sod}}</td>
+		                <td>{{item.mid}}</td>
+		            </tr>
 	            </tbody>
 	        </table>
 	        <a href="#" class="viewmore" ng-show="historyShow">查看更多</a>
-	        <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}" ng-click="showRecord10()"></span>
+	        <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}" ng-click="showRecord10($event)"></span>
 	    </div>
     </div>
 </div>
@@ -147,7 +136,7 @@
         <li class="pluseitem" ng-click="customMutiple(1,$event)"><span class="n">+1</span></li>
         <li class="pluseitem" ng-click="customMutiple(10,$event)"><span class="n">+10</span></li>
     </ul>
-    <div ng-hide="iseditor">
+    <div ng-hide="isEditor">
         <div class="select-result" ng-class="{hasBall:hasBall}">
             <div class="result-title" ng-click="clickMutit($event)">
                 <span ng-hide="!extraisShow">{{ multiple == 1 ? "倍投x1": ('x'+multiple) }}</span>
@@ -169,15 +158,13 @@
         </div>
     </div>
 
-    <div ng-show="iseditor">
+    <div ng-show="isEditor">
         <div class="select-result select-result2">
             <div class="result-title" ng-click="clickMutit($event)">
-                <span ng-class="{ titleText : extraisShow}">
-                    {{ shopCar.multiple == 1?"倍投x1": ('x'+ shopCar.multiple) }}
-                </span>
-                <input ng-class="{ titleInput : extraisShow}" type="tel" disabled ng-model="shopCar.multiple"
-                       ng-init="shopCar.multiple=1"
-                       ng-value="shopCar.multiple ">
+                <span ng-hide="!extraisShow">{{ multiple == 1 ? "倍投x1": ('x'+multiple) }}</span>
+                <input class="titleInput" ng-hide="extraisShow" type="tel" disabled ng-model="multiple"
+                       ng-init="multiple=1"
+                       ng-value="multiple">
             </div>
             <span ng-click="goBucket(true)" class="comfirm">确定</span>
         </div>

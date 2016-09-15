@@ -59,3 +59,5 @@
 	npm start
 	http://localhost:3000
 
+
+#接口路径都在index.ejs下，所需数据格式均在public/src/datas下

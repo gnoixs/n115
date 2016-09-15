@@ -492,6 +492,9 @@
     float:left;
     padding: 0;
 }
+.select-result2{
+	width:300%;
+}
 .select-result.hasBall{
 	background: #fd9009;
 }
@@ -822,6 +825,7 @@
 .scheme dl dt,
 .scheme dl dd {
     padding: 3px 20px 3px 0px;
+    padding-right: 40px;
 }
 
 .scheme-multiple {
@@ -848,13 +852,15 @@
 }
 
 .scheme-delete {
-    width: 30px;
+    width: 40px;
     height: 30px;
     position: absolute;
     right: 0px;
     top: 0%;
     height: 100%;
     padding-right: 15px;
+    box-sizing: border-box;
+    z-index: 2;
 }
 
 .scheme-delete:after {
@@ -1062,4 +1068,162 @@
     border-radius: 10px;
     -webkit-border-radius: 4px;
     z-index: 9999
+}
+
+.comfirm {
+    line-height: 50px;
+    color: #f3f3f3;
+    margin: 0 auto;
+    width: 28%;
+    position: absolute;
+    left: 60px;
+    background: #fd9009;
+    text-align: center;
+}
+
+/**/
+.result-box {
+    background-color: #f5f5f5; }
+
+.result-box dl.result-bet-info {
+    padding: 10px;
+}
+
+
+.result-box dl.result-bet-info dt {
+    color: #535353;
+    width: 30%;
+}
+
+.result-box dl.result-bet-info dd, .result-box dl.result-bet-info dt {
+    float: left;
+    display: inline-block;
+    line-height: 35px;
+    border-top: 1px solid #eaeaea;
+}
+
+.result-box dl.result-bet-info dd {
+    color: #8f8f8f;
+    width: 70%;
+}
+.bar-foot-submit-finished {
+    background: #f2f2f2;
+    height: 70px;
+}
+.bar-foot-submit-finished button.button-submit-finished {
+    padding: 0;
+    color: #088;
+    border: 1px solid #6ac2b8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #d5e9e5;
+    background-image: linear-gradient(180deg,#ebf7f2,#d5e9e5);
+}
+/*
+.result-box .result-list-shadow {
+    background-color: #ccc;
+    background-image: none; }
+.result-box span.ar-btn {
+    color: #088;
+    border-color: #088;
+    background-color: #d0ecea;
+    background-image: linear-gradient(180deg, #ffffff, #d0ecea); }
+.result-box ul.scheme-list li dl dt {
+    color: #088; }
+.result-box ul.scheme-list li span.scheme-multiple {
+    color: #666; }
+.result-box ul.scheme-list li span.scheme-multiple button {
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    background: #088;
+    border: 0;
+    padding: 1px 8px;
+    margin: 0 5px 0 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px; }
+.result-box ul.scheme-list li span.scheme-delete {
+    width: 30px; }
+.result-box ul.scheme-list li.super-2000 {
+    background: #fffbec; }
+.result-box ul.scheme-list li.super-2000 div, .result-box ul.scheme-list li.super-2000 span, .result-box ul.scheme-list li.super-2000 button {
+    background: #fffbec; }
+.result-box ul.scheme-list li.super-2000 span.scheme-multiple button {
+    background: #fa0; }
+.result-box ul.scheme-list li.super-2000 dl dt {
+    color: #fa0; }
+.result-box ul.scheme-list li.submit:before {
+    content: ''; }
+*/
+
+
+
+.select-jjz .item-radio {
+    float: left;
+    width: 100px;
+    display: inline-block;
+    margin: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
+.select-jjz .item-radio .item-content {
+    font-size: 24px;
+    padding: 15px 0;
+    text-align: center;
+    color: #555;
+    background-color: #ececec;
+    background-image: linear-gradient(180deg, #f5f5f5, #ececec); }
+.select-jjz .item-radio i.radio-icon {
+    display: none; }
+.select-jjz .item-radio input:checked + .radio-content .item-content {
+    background-color: #26b595;
+    background-image: linear-gradient(180deg, #36d4be, #26b595);
+    color: #fff; }
+
+.popup-container .popup {
+    width: 300px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background: #fff; }
+.popup-container .popup hr {
+    border: 0;
+    border-bottom: 1px solid #eee; }
+.popup-container .popup p {
+    clear: both;
+    text-align: center;
+    color: #088; }
+.popup-container .popup div.popup-buttons button {
+    height: 34px;
+    min-height: 34px; }
+.popup-container .popup div.popup-buttons button.button-positive {
+    padding: 0;
+    color: #088;
+    border: 1px solid #6ac2b8;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #d5e9e5;
+    background-image: linear-gradient(180deg, #ebf7f2, #d5e9e5); }
+.popup-container .popup div.popup-buttons button.button-default {
+    color: #6b6b6b;
+    padding: 0;
+    border: 1px solid #ccc;
+    background-color: #eaeaea;
+    background-image: linear-gradient(180deg, #f5f5f5, #eaeaea); }
+/**重写的*/
+.list:last-child{
+    display: inline-block;
+}
+.popup-body{
+    text-align:center;
+}
+.popup-sub-title {
+    margin: 5px 0 0 0;
+    padding: 0;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 25px;
 }
