@@ -7,6 +7,7 @@ var path = require('path');
 router.get('/', function(req, res, next) {
   //var result = fs.readFile(__dirname)
   res.render('index', { title: 'Express' });
+  console.log(123);
 });
 
 module.exports = router;

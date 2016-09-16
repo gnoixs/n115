@@ -1,95 +1,617 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  	<meta charset="UTF8">
-  	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<head>
+    <meta charset="UTF8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <title>11选5</title>
-    <link href="/libs/ionic/release/css/ionic.css" rel="stylesheet">
-    <link href="/src/styles/style.css" rel="stylesheet">
-  </head>
+    <link href="/build/main.min.css" rel="stylesheet">
+</head>
 
-  <body ng-app='app' ng-controller='bodyCtrl'>
-  		  
-  	<ion-nav-view>
-  		
-  	</ion-nav-view>
-	<script src="/libs/jquery/dist/jquery.js"></script>  
-  	<script src="/libs/ionic/release/js/ionic.bundle.js"></script>       
-  	<script src="/libs/angular-resource/angular-resource.js"></script>  
+<body ng-app='app' ng-controller='bodyCtrl'>
 
-	<script src="/src/scripts/phoenix.js"></script>	
-  	<script src="/src/datas/init.cf.js"></script>
-  	
-	
-	<script type="text/javascript">			
-		window.debug      =  false;
-        var returnUrl     =  'http://www2.joy188.com:888/index'; 			    // 大厅地址
-        var basePath      =  '';
-        var introUrl      =  '/src/tpls/gameintro.html';						//游戏介绍模板地址
-        var moreRecordUrl =  'http://www.google.com';
-        var backToPcUrl   =  'http://em.dev03.com/gameBet/cqssc/';
+<ion-nav-view>
 
-        phoenix.Games.N115.Config.pros.init();							       //获取游戏玩法数组
+</ion-nav-view>
 
-        var configData = {
-            "gameTypeCn"          :  phoenix.Games.N115.Config.defConfig.gameTypeCn,          //游戏中文名称 -- 【'山东11选5'】
-            "defaultMethod"       :  phoenix.Games.N115.Config.pros.getDefaultMethod(),       //默认玩法 -- 【xuanwu.renxuanwuzhongwu.fushi'】
-            "gameMethods"         :  phoenix.Games.N115.Config.pros.getTypes(),				  //游戏玩法数组
-            "records"             :  {},
-            "gameLimits"          :  {},
-            "awardGroups"         :  phoenix.Games.N115.Config.defConfig.awardGroups,         //奖金组
-            "awardGroupRetStatus" :  phoenix.Games.N115.Config.defConfig.awardGroupRetStatus, //奖金组状态是否设置
-            "isSupport2000"       :  phoenix.Games.N115.Config.defConfig.isSupport2000 		  //是否支持超级2000
-        };
+<script type="text/javascript" src="/build/all.min.js"></script>
 
-//数据请求接口
-
-        // 提交用户奖金组设置的接口
-		//var saveBetAwardUrl = phoenix.Games.N115.Config.pros.getSaveProxyBetGameAwardGroupUrl();
-        var saveBetAwardUrl = '/src/datas/saveBetAward.json';
-
-        // 提交投注接口
-		//var submitUrl = phoenix.Games.N115.Config.pros.submitUrl();
-        var submitUrl = '/src/datas/submit.json';
-
-        // 调用接口获取动态配置数据, 如投注倍数的限制等
-		//var dynamicConfigUrl = phoenix.Games.N115.Config.pros.getDynamicConfigUrl();
-       /* var dynamicConfigUrl = '/configs/datas/dynamicConfig.json';
-        configData.dynamicConfigUrl = dynamicConfigUrl;
-        $.getJSON(dynamicConfigUrl, function(data){
-            configData.gameLimits = data.data.gamelimit[0];
-        });*/
-
-        // 调用接口获取近期开奖信息
-		//var gameChartUrl = 'http://em.dev03.com/game/chart/cqssc';
-        var gameChartUrl = '/src/datas/history.json';
-        $.getJSON(gameChartUrl, function(data){
-            configData.records = data;
-        });
+<script src="/src/scripts/phoenix.js"></script>
+<script src="/src/datas/init.cf.js"></script>
 
 
-        // 调用接口获取用户账户余额
-		//var queryUserBalUrl = phoenix.Games.N115.Config.pros.getUserBalUrl();
-        var queryUserBalUrl = '/src/datas/queryUserBal.json';
-        $.getJSON(queryUserBalUrl, function (data){
-            configData.balance = data.balance;
-        });
+<script type="text/javascript">
+    window.debug = false;
+    var returnUrl = 'http://www2.joy188.com:888/index';                 // 大厅地址
+    var basePath = '';
+    var introUrl = '/src/tpls/gameintro.html';                      //游戏介绍模板地址
+    var moreRecordUrl = 'http://www.google.com';
+    var backToPcUrl = 'http://em.dev03.com/gameBet/cqssc/';
 
-        //获取期数
-        var queryTerm = '/src/datas/getTerm.json';
-        $.getJSON(queryTerm, function (data){
-            configData.term = data.term;
-        });
+    phoenix.Games.N115.Config.pros.init();                                 //获取游戏玩法数组
 
-        if(/#\/drawing|#\/submit|#\/intro/.test(location.hash)){
-            location.hash = '#/pick';
-        }
-     
-	</script>
+    var configData = {
+        "gameTypeCn": phoenix.Games.N115.Config.defConfig.gameTypeCn,          //游戏中文名称 -- 【'山东11选5'】
+        "defaultMethod": phoenix.Games.N115.Config.pros.getDefaultMethod(),       //默认玩法 -- 【xuanwu.renxuanwuzhongwu.fushi'】
+        "gameMethods": phoenix.Games.N115.Config.pros.getTypes(),                 //游戏玩法数组
+        "records": {},
+        "gameLimits": {},
+        "awardGroups": phoenix.Games.N115.Config.defConfig.awardGroups,         //奖金组
+        "awardGroupRetStatus": phoenix.Games.N115.Config.defConfig.awardGroupRetStatus, //奖金组状态是否设置
+        "isSupport2000": phoenix.Games.N115.Config.defConfig.isSupport2000        //是否支持超级2000
+    };
+
+    //数据请求接口
+
+    // 提交用户奖金组设置的接口
+    //var saveBetAwardUrl = phoenix.Games.N115.Config.pros.getSaveProxyBetGameAwardGroupUrl();
+    var saveBetAwardUrl = '/src/datas/saveBetAward.json';
+
+    // 提交投注接口
+    //var submitUrl = phoenix.Games.N115.Config.pros.submitUrl();
+    var submitUrl = '/src/datas/submit.json';
+
+    // 调用接口获取动态配置数据, 如投注倍数的限制等
+    //var dynamicConfigUrl = phoenix.Games.N115.Config.pros.getDynamicConfigUrl();
+    /* var dynamicConfigUrl = '/configs/datas/dynamicConfig.json';
+     configData.dynamicConfigUrl = dynamicConfigUrl;
+     $.getJSON(dynamicConfigUrl, function(data){
+     configData.gameLimits = data.data.gamelimit[0];
+     });*/
+
+    // 调用接口获取近期开奖信息
+    //var gameChartUrl = 'http://em.dev03.com/game/chart/cqssc';
+    var gameChartUrl = '/src/datas/history.json';
+    $.getJSON(gameChartUrl, function (data) {
+        configData.records = data;
+    });
 
 
-  	
-  	<script src="/src/scripts/app.js"></script>	
-  	<script src="/src/scripts/controller.js"></script>		  
-  </body>
+    // 调用接口获取用户账户余额
+    //var queryUserBalUrl = phoenix.Games.N115.Config.pros.getUserBalUrl();
+    var queryUserBalUrl = '/src/datas/queryUserBal.json';
+    $.getJSON(queryUserBalUrl, function (data) {
+        configData.balance = data.balance;
+    });
+
+    //获取期数
+    var queryTerm = '/src/datas/getTerm.json';
+    $.getJSON(queryTerm, function (data) {
+        configData.term = data.term;
+    });
+
+    if (/#\/drawing|#\/submit|#\/intro/.test(location.hash)) {
+        location.hash = '#/pick';
+    }
+
+</script>
+<!--========================================================templates======================================================-->
+<!--pick start-->
+<script id="templates/pick.html" type="text/ng-template">
+<div class="modal">
+    <ion-view>
+        <!--头部开始-->
+        <ion-header-bar class="bar-positive" align-title="center">
+            <a class="button button-icon ion-chevron-left" ng-hide="isEditor" ng-click="goBack()"></a>
+            <h1 class="title" ng-click="changeMethod($event)">{{ currentMethodTitle }}
+            <span class="icon ion-chevron-down
+                        {{ poptypeshow ? 'ion-chevron-up':'ion-chevron-down'}}"
+                  ng-hide="isEditor">
+            </span>
+            </h1>
+            <a class="button button-icon icon ion-more" ng-click="menuShowHander()"></a>
+        </ion-header-bar>
+        <!--头部结束-->
+        <!--更多选项开始-->
+        <div class="ar-popmenu" ng-show="menuShow">
+            <ul>
+                <li><a href="#"> 走势图</a></li>
+                <li ng-click="yuanjiao()">模式 {{ unitPrice==2?"元":"角" }}</li>
+                <li ng-click="fandian()" ng-show="awardGroupRetStatus">奖金返点</li>
+                <li ng-click="showPlayInfo()">玩法说明</li>
+                <li><a href="#">电脑版</a></li>
+            </ul>
+        </div>
+        <!--更多选项结束-->
+        <!--游戏玩法开始-->
+        <div class="ar-poptype" onscroll="true" ng-class="{active: poptypeshow}">
+            <div class="row">
+                <div class="col mytitle {{i == choosedType ? 'active':''}}"
+                     ng-repeat="(i,gameMethods) in gameMethodsGroup" ng-click="slideChange(i,gameMethods)">
+                    <span>{{gameMethods.title}}</span>
+                </div>
+            </div>
+
+            <ion-slide-box on-slide-changed="slideHasChanged($index)" delegate-handle="slidebox"
+                           active-slide="choosedType">
+                <ion-slide ng-repeat="(k,_gameMethods) in gameMethodsGroup">
+                    <dl ng-repeat="_gameMethod in _gameMethods.childs">
+                        <dt>{{_gameMethod.title}}:</dt>
+                        <dd>
+                        <span class="typeSpans {{j==0&&_gameType.parent=='renxuanwuzhongwu'?'active':''}}"
+                              ng-click="chooseGame(j,_gameType,$event)" ng-repeat="(j,_gameType) in _gameMethod.childs">
+                           {{_gameType.title}}
+                        </span>
+                        </dd>
+                    </dl>
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+        <div class="ar-poptype-curtion" ng-class="{active: poptypeshow}" ng-click="chooseGame()"></div>
+        <!--游戏玩法结束-->
+
+        <!--开奖历史开始-->
+        <div class="game-history {{singleMode?'hide':'' }}">
+            <div class="curtion" ng-class="{active: historyShow}" ng-click="closeRecord10()">
+                <div class="history-bar">
+                    <span>距{{$root.term < 10 ? ('00'+$root.term) : ($root.term<100 ? ('0'+$root.term):$root.term)}}期截止 <span
+                                class="timecount">{{minute}}分{{second}}秒</span></span>
+                    <span class="ai-random" ng-click="getRandom()">机选</span>
+                </div>
+
+                <div class="history-box">
+                    <table cellpadding="0" cellspacing="0" ng-show="historyShow">
+                        <tr>
+                            <th>期号</th>
+                            <th>开奖号码</th>
+                            <th>单:双</th>
+                            <th>中位数</th>
+                        </tr>
+                        <tbody>
+                        <tr ng-repeat="item in historyRecord.slice(0,10)">
+                            <td>{{item.NO}}</td>
+                            <td>{{item.num}}</td>
+                            <td>{{item.sod}}</td>
+                            <td>{{item.mid}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" class="viewmore" ng-show="historyShow">查看更多</a>
+                    <span class="open-button icon {{historyShow?'ion-ios-arrow-up' :'ion-ios-arrow-down hide'}}"
+                          ng-click="showRecord10($event)"></span>
+                </div>
+            </div>
+        </div>
+        <!--开奖历史结束-->
+        <!--选球界面开始-->
+        <ion-content class="has-footer has-header" delegate-handle="mainScroll"
+                     style="top:77px;position:{{singleMode?'relative':'absolute';}}">
+            <div class="number-select-content" ng-hide="singleMode">
+                <div class="number-select-list" ng-repeat="bt in ballTree">
+                    <div class="list-top">
+                        <h3>{{ bt.h3 =='isEditor' ? '': bt.h3}}</h3>
+                        <ol>
+                            <li class="{{ q.active ? 'active':''}}" ng-repeat="q in bt.quick"
+                                ng-click="quick(bt,q)">{{q.cnt}}
+                            </li>
+                        </ol>
+                    </div>
+                    <ul class="ball-list">
+                        <li ng-repeat="ball in bt.balls"
+                            class="{{ball.cnt.length >=4 ? 'dds' : ''}} {{ ball.active ? 'active':'' }}"
+                            ng-click="chooseBall(ballTree,ball,bt)">{{ball.cnt}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--单式-->
+            <div class="number-select-content {{singleMode?'':'number-select-content2'}}">
+                <div class="row option-label" ng-hide="beforesubmited">
+                    <div class="col label">请输入注单:</div>
+                    <div ng-click="helprule()" class="col">帮助</div>
+                    <div ng-click="clearVal()" class="col">清空</div>
+                </div>
+
+                <div class="row option-label" ng-hide="!beforesubmited">
+                    <div class="col label">请输入注单:</div>
+                    <div ng-click="helprule()" class="col">规则</div>
+                    <div ng-click="cancelSubmited()" class="col">返回</div>
+                </div>
+
+                <div class="number-select-content-danshi">
+                    <p class="tips-danshi" ng-show="ShowtextareaTip">
+                        1.输入的注单请参照如下规则：单注内各号码保持相连，不同注号码间用分隔符隔开;<br>
+                        2.分隔符支持：回车[ ]空格[ ]逗号[,]分号[;]冒号[:]竖线[|];<br>
+                        3.文件较大时，提交注单可能需要一定时间，请耐心等待;
+                    </p>
+
+                    <textarea class="text-areas" ng-focus="textareaFocus()" ng-blur="textareaBlur()"
+                              ng-model="$parent.input" rows="20"></textarea>
+                </div>
+                <div ng-show="hasDanshiErrror">
+                    <div class="showtextarea-err" ng-click="showtextareaError()">
+                        被排除的问题
+                    </div>
+                </div>
+            </div>
+
+        </ion-content>
+        <!--选球界面结束-->
+
+        <!--footer开始-->
+        <div class="bar bar-footer bar-stable {{ hasChoose && !singleMOde ?'active':'' }}">
+            <em class="text-center submit-button  {{isFocus?'active':''}}" ng-hide="beforesubmited"
+                ng-click="textareaSubmit()">提交</em>
+            <ul class="custompluse" ng-hide="extraisShow">
+                <li class="pluseitem" ng-click="customMutiple(-10,$event)"><span class="n">-10</span></li>
+                <li class="pluseitem" ng-click="customMutiple(-1,$event)"><span class="n">-1</span></li>
+                <li class="pluseitem" ng-click="customMutiple(1,$event)"><span class="n">+1</span></li>
+                <li class="pluseitem" ng-click="customMutiple(10,$event)"><span class="n">+10</span></li>
+            </ul>
+            <div ng-hide="isEditor">
+                <div class="select-result" ng-class="{hasBall:hasBall}">
+                    <div class="result-title" ng-click="clickMutit($event)">
+                        <span ng-hide="!extraisShow">{{ multiple == 1 ? "倍投x1": ('x'+multiple) }}</span>
+                        <input class="titleInput" ng-hide="extraisShow" type="tel" disabled ng-model="multiple"
+                               ng-init="multiple=1"
+                               ng-value="multiple">
+                    </div>
+
+                    <dl class="result-money" ng-click="setBukets()">
+                        <dt>已选{{ count }}注x{{ unitPrice }}元</dt>
+                        <dd>{{ count * unitPrice * multiple | number:1}}元</dd>
+                    </dl>
+            <span class="result-plus"
+                  ng-click="setBukets()">{{singleMode ? ' ':'+'}}</span>
+                </div>
+                <div class="result-next {{singleMOde?'result-next2':''}}" ng-click="goBucket()">
+                    {{singleMode?'确定':'号码篮'}}<span
+                            ng-show="globalCount"
+                            class="result-count">{{ globalCount }}</span>
+                </div>
+            </div>
+
+            <div ng-show="isEditor">
+                <div class="select-result select-result2">
+                    <div class="result-title" ng-click="clickMutit($event)">
+                        <span ng-hide="!extraisShow">{{ multiple == 1 ? "倍投x1": ('x'+multiple) }}</span>
+                        <input class="titleInput" ng-hide="extraisShow" type="tel" disabled ng-model="multiple"
+                               ng-init="multiple=1"
+                               ng-value="multiple">
+                    </div>
+                    <span ng-click="goBucket(true)" class="comfirm">确定</span>
+                </div>
+            </div>
+        </div>
+        <!--footer结束-->
+    </ion-view>
+</div>   
+</script>
+<!--pick end-->
+<!--draw start-->
+<script id="templates/draw.html" type="text/ng-template">
+<div class="modal">
+    <ion-view>
+        <ion-header-bar class="bar-positive" align-title="center">
+            <a class="button button-icon ion-chevron-left" ng-hide="iseditor" ng-click="goBack()"></a>
+            <h1 class="title" ng-click="changeMethod($event)">号码篮</h1>
+        </ion-header-bar>
+        <div class="result-operate">
+            <span class="ar-btn" ng-click="goPick()">自选号码</span>
+            <span class="ar-btn" ng-click="getrandomBalls()">机选一注</span>
+            <span class="ar-btn" ng-click="showConfirm()">清空</span>
+        </div>
+        <div class="result-list-shadow"></div>
+        <!--注单-->
+        <ion-content class="has-footer has-header bg-drawing" overflow-scroll="true">
+            <div class="result-box">
+                <div class="result-list">
+                    <ul class="{{_bets.length?'scheme-list':''}}">
+                        <li class="scheme {{obj.danshi?'scheme2':''}}" ng-repeat="(i,obj) in _bets track by $index"
+                            ng-click="editLottory(i,obj,_bets)">
+                            <dl>
+                                <dt>
+                                    {{obj.bet}}
+                                </dt>
+                                <dd>{{obj.title}} {{obj.count }}注x{{ unitPrice}}元</dd>
+                            </dl>
+                            <span class="scheme-multiple">
+                                <button>{{$root.award}}</button>
+                                {{$root.continuesBet > 1 ? $root.globalMultiple : obj.multiple * $root.globalMultiple }}倍
+                            </span>
+                            <span class="scheme-delete" ng-click="removeBucketItem(i,_bets,$event)"></span>
+                        </li>
+                </div>
+                </ul>
+            </div>
+        </ion-content>
+        <!--追号,加倍-->
+        <div class="extra-operate extraOperateShow">
+            <div class="extra-box">
+                <label>投</label>
+                <p>
+                    <span class="op-plus" ng-click="minderMutl()">-</span>
+                    <input type="number" ng-model="$root.globalMultiple" ng-keyup='globleMultipleChange(true)'>
+                    <span class="op-minus" ng-click="globleMultipleChange()">+</span>
+                </p>
+                <label>倍</label>
+            </div>
+            <div class="extra-box">
+                <label>追</label>
+                <p>
+                    <span class="op-plus" ng-click="minusContinuesBet()">-</span>
+                    <input type="number" ng-model="$root.continuesBet" ng-keyup='plusContinuesBet(true)'>
+                    <span class="op-minus" ng-click="plusContinuesBet()">+</span>
+                </p>
+                <label>期</label>
+            </div>
+        </div>
+        <div class="zhuihao">
+            <span><input type="checkbox" id="traceWinStop" ng-model="traceWinStop"/></span>
+            <label for="traceWinStop">中奖后停止追号</label>
+        </div>
+        <!--页脚-->
+        <div class="bar bar-footer bar-stable">
+            <div class="select-result">
+                <dl class="result-money confirm-money">
+                    <dt>共{{ $root.betsCounts }}注，<span>{{$root.betsMoney|number:1 }}元 </span>
+                    </dt>
+                    <dd>余额：{{ balance | currency: ''}}元</dd>
+                </dl>
+            </div>
+            <div class="result-next result-confirm" ng-click="gosubmit(0)">投注</div>
+        </div>
+    </ion-view>
+</div>
+</script>
+<!--draw end-->
+<!--submit start-->
+<script id="templates/submit.html" type="text/ng-template">
+<div class="modal">
+    <ion-view>
+        <ion-header-bar class="bar-positive" align-title="center">
+            <a class="button button-icon ion-chevron-left" ng-click="goBack()"></a>
+            <h1 class="title">投注成功</h1>
+        </ion-header-bar>
+        <ion-content class="has-footer has-header bg-drawing" overflow-scroll="true" style="top:44px;">
+            <!--彩票方案操作-->
+            <div class="result-box">
+                <dl class="result-bet-info">
+                    <dt>彩种名称</dt>
+                    <dd>{{$root.info.name}}</dd>
+                    <dt>期号</dt>
+                    <dd>第{{$root.info.term}}期[追{{$root.info.continuesBet}}期]</dd>
+                    <dt>投注金额</dt>
+                    <dd>{{$root.info.money| number:1 }}元</dd>
+                    <dt>投注内容</dt>
+                    <dd></dd>
+                </dl>
+                <div class="result-list">
+                    <div class="result-list-shadow" style="top:0px;"></div>
+                    <ul class="{{_bets.length?'scheme-list':''}}">
+                        <li class="scheme scheme2" ng-repeat="(i,obj) in _bets track by $index">
+                            <dl>
+                                <dt>
+                                    {{obj.bet}}
+                                </dt>
+                                <dd>{{obj.title}} {{obj.count }}注x{{ unitPrice}}元</dd>
+                            </dl>
+                            <span class="scheme-multiple">
+                                <button>{{$root.award}}</button>
+                                {{$root.continuesBet > 1 ? $root.globalMultiple : obj.multiple * $root.globalMultiple }}倍
+                            </span>
+                            <span class="scheme-delete" ng-click="removeBucketItem(i,_bets,$event)"></span>
+                        </li>
+                </div>
+                </ul>
+            </div>
+            </div>
+        </ion-content>
+
+        <div class="bar bar-footer bar-foot-submit-finished">
+            <button class="button button-full button-submit-finished" ng-click="goBack()">继 续 投 注</button>
+        </div>
+    </ion-view>
+</div>    
+</script>
+<!--submit end-->
+<!--intro begin-->
+<script id="templates/intro.html" type="text/ng-template">
+<div class="modal">
+<ion-view>
+    <ion-header-bar class="bar-positive" align-title="center">
+        <a class="button button-icon ion-chevron-left" ng-click="goBack()"></a>
+        <h1 class="title">游戏玩法</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div id="intro">
+        <h1>山东11选5</h1>
+        <strong>销售时间：09:05-21:55，10分钟/期，全天78期.</strong><br/>
+        <p>从01-11共11个号码中任选1-8个号码进行投注，每期开出5个号码为中奖号码，竞猜5位开奖号码的全部或部分号码。投注方式灵活，开奖频次高，全面满足不同用户的投注需要。</p>
+        <h2>玩法介绍</h2>
+        <table border="1" cellpadding="1" cellspacing="1" width="100%">
+            <thead>
+                 <tr>
+                    <td style="width:10%%;"><strong>玩法群</strong></td>
+                    <td style="width:15%;"><strong>玩法组</strong></td>
+                    <td style="width:30%;"><strong>玩法</strong></td>
+                    <td style="width:45%;"><strong>玩法说明</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+           
+            <tr>
+                <td rowspan="4">选一</td>
+                <td rowspan="2">任选一中一</td>
+                <td>任选一中一_复式</td>
+                <td>从01-11共11个号码中选择1个号码进行购买，当期的5个开奖号码中包含所选号码，即可中奖。</td>
+            </tr>
+            <tr>
+                <td>任选一中一_单式</td>
+                <td>从01-11中手动输入1个号码进行购买，只要当期的5个开奖号码中包含所选号码，，即可中奖。</td>
+            </tr>
+            <tr>
+                <td>定位胆</td>
+                <td>第一位 第二位 第三位 第四位 第五位</td>
+                <td>从第一位、第二位、第三位任意1个位置或多个位置上选择1个号码，所选号码与相同位置上的开奖号码一致，即可中奖。</td>
+            </tr>
+            <tr>
+                <td>前三不定位</td>
+                <td>前三不定位_复式</td>
+                <td>从01-11共11个号码中选择1个号码，每注由1个号码组成，只要当期顺序摇出的第一位、第二位、第三位开奖号码中包含所选号码，即可中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="8">选二</td>
+                <td rowspan="3">任选二中二</td>
+                <td>任选二中二_复式</td>
+                <td>从01-11共11个号码中选择2个号码进行购买，只要当期的5个开奖号码中包含所选号码，即可中奖。</td>
+            </tr>
+            <tr>
+                <td>任选二中二_单式</td>
+                <td>从01-11中手动输入2个号码进行购买，只要当期的5个开奖号码中包含所选号码，即可中奖。</td>
+            </tr>
+            <tr>
+                <td>任选二中二_胆拖</td>
+                <td>从01-11共11个号码中至少选择2个以上号码进行投注，每注需至少包括1个胆码及1个拖码。只要当期的5个开奖号码中有2个包含所选号码（每注包含2个号码），即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="2">前二直选</td>
+                <td>前二直选_复式</td>
+                <td>从01-11共11个号码中选择2个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中 的前2个号码相同，且顺序一致，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前二直选_单式</td>
+                <td>手动输入2个号码组成一注，所输入的号码与当期顺序摇出的5个号码中 的前2个号码相同，且顺序一致，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">前二组选</td>
+                <td>前二组选_复式</td>
+                <td>从01-11共11个号码中选择2个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中 的前2个号码相同，且顺序不限，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前二组选_单式</td>
+                <td>手动输入2个号码组成一注，所输入的号码与当期顺序摇出的5个号码中 的前2个号码相同，且顺序不限，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前二组选_胆拖</td>
+                <td>从01-11共11个号码中至少选择2个以上号码进行投注，每注需至少包括1个胆码及1个拖码。只要当期的前二位开奖号码中有2个包含所选号码（每注包含2个号码），即为中奖。
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="8">选三</td>
+                <td rowspan="3">任选三中三</td>
+                <td>任选三中三_复式</td>
+                <td>从01-11共11个号码中选择3个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选三中三_单式</td>
+                <td>从01-11中手动输入3个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选三中三_胆拖</td>
+                <td>从01-11共11个号码中至少选择3个以上号码进行投注，每注需至少包括1个胆码及2个拖码。只要当期的5个开奖号码中有3个包含所选号码（每注包含3个号码），即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="2">前三直选</td>
+                <td>前三直选_复式</td>
+                <td>从01-11共11个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中 的前3个号码相同，且顺序一致，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前三直选_单式</td>
+                <td>手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中 的前3个号码相同，且顺序一致，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">前三组选</td>
+                <td>前三组选_复式</td>
+                <td>从01-11共11个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中 的前3个号码相同，且顺序不限，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前三组选_单式</td>
+                <td>手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中 的前3个号码相同，且顺序不限，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>前三组选_胆拖</td>
+                <td>从01-11共11个号码中至少选择3个以上号码进行投注，每注需至少包括1个胆码及2个拖码。只要当期的前三位开奖号码中有3个包含所选号码（每注包含3个号码），即为中奖。
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="3">选四</td>
+                <td rowspan="3">任选四中四</td>
+                <td>任选四中四_复式</td>
+                <td>从01-11共11个号码中选择4个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选四中四_单式</td>
+                <td>从01-11中手动输入4个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选四中四_胆拖</td>
+                <td>从01-11共11个号码中至少选择4个以上号码进行投注，每注需至少包括1个胆码及3个拖码。只要当期的5个开奖号码中有4个包含所选号码（每注包含4个号码），即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">选五</td>
+                <td rowspan="3">任选五中五</td>
+                <td>任选五中五_复式</td>
+                <td>从01-11共11个号码中选择5个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选五中五_单式</td>
+                <td>从01-11中手动输入5个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选五中五_胆拖</td>
+                <td>从01-11共11个号码中至少选择5个以上号码进行投注，每注需至少包括1个胆码及4个拖码。只要所选的每注5个号码和当期的5个开奖号码全部相同，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">选六</td>
+                <td rowspan="3">任选六中五</td>
+                <td>任选六中五_复式</td>
+                <td>从01-11共11个号码中选择6个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选六中五_单式</td>
+                <td>从01-11中手动输入6个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选六中五_胆拖</td>
+                <td>从01-11共11个号码中至少选择6个以上号码进行投注，每注需至少包括1个胆码及5个拖码。只要所选的每注6个号码当中，有5个和当期的5个开奖号码全部相同，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">选七</td>
+                <td rowspan="3">任选七中五</td>
+                <td>任选七中五_复式</td>
+                <td>从01-11共11个号码中选择7个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选七中五_单式</td>
+                <td>从01-11中手动输入7个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选七中五_胆拖</td>
+                <td>从01-11共11个号码中至少选择7个以上号码进行投注，每注需至少包括1个胆码及6个拖码。只要所选的每注7个号码当中，有5个和当期的5个开奖号码全部相同，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="3">选八</td>
+                <td rowspan="3">任选八中五</td>
+                <td>任选八中五_复式</td>
+                <td>从01-11共11个号码中选择8个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选八中五_单式</td>
+                <td>从01-11中手动输入8个号码进行购买，只要当期的5个开奖号码中包含所选号码，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>任选八中五_胆拖</td>
+                <td>从01-11共11个号码中至少选择8个以上号码进行投注，每注需至少包括1个胆码及7个拖码。只要所选的每注6个号码当中，有5个和当期的5个开奖号码全部相同，即为中奖。</td>
+            </tr>
+            <tr>
+                <td rowspan="2">趣味</td>
+                <td rowspan="2">趣味</td>
+                <td>定单双</td>
+                <td>从6种单双个数组合中选择1种组合，当开奖号码的单双个数与所选单双组合一致，即为中奖。</td>
+            </tr>
+            <tr>
+                <td>猜中位</td>
+                <td>从3-9中选择1个号码进行购买，所选号码与5个开奖号码按照大小顺序排列后的第3个号码相同，即为中奖。</td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+    </ion-content>
+</ion-view>
+    </div>
+    </script>
+<!--intro end-->
+<!--========================================================templates end======================================================-->
+</body>
 </html>

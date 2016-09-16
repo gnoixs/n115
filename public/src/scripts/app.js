@@ -6,16 +6,17 @@ angular.module('app',['ionic','ngResource','starter.controllers']).run(['$ionicP
 	}]).config(['$stateProvider','$urlRouterProvider','$ionicConfigProvider',function($stateProvider,$urlRouterProvider,$ionicConfigProvider){
 		$stateProvider.state('pick', {					//选号
 				url         : '/pick',
-				templateUrl : 'src/tpls/pick.html',
-				//templateUrl : 'src/tpls/draw.html',
+				//templateUrl : 'src/tpls/pick.html',
+				templateUrl : 'templates/pick.html',
 				controller  : 'pickCtrl'
 		}).state('draw', {								//投注
 			url          : '/draw',
-			templateUrl : 'src/tpls/draw.html',
+			//templateUrl : 'src/tpls/draw.html',
+			templateUrl : 'templates/draw.html',
 			controller   : 'drawCtrl'
 		}).state('intro', {								//游戏玩法
 			url          : '/intro',
-			templateUrl : 'src/tpls/intro.html',
+			templateUrl : 'templates/intro.html',
 			controller   : 'introCtrl'
 		}).state('submit', {							//提交
 			url          : '/submit',

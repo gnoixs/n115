@@ -61,3 +61,5 @@
 
 
 #接口路径都在index.ejs下，所需数据格式均在public/src/datas下
+
+# build目录和index.ejs(可以改成后端模板)是前端的所有内容，src/datas是需要提供的数据接口

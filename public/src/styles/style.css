@@ -1227,3 +1227,30 @@
     font-size: 15px;
     line-height: 25px;
 }
+
+/*游戏介绍*/
+#intro{
+    padding: 10px;
+}
+#intro h1{
+    font-size:18px;
+    line-height: 22px;
+}
+#intro strong{
+    line-height: 20px;
+}
+#intro p{
+    font-size: 14px;
+    padding: 5px;
+}
+#intro h2{
+    color: red;
+    font-size: 20px;
+    margin-top: 10px;
+}
+#intro table td{
+    border:1px solid #000;
+    vertical-align: middle;
+    padding: 2px;
+
+}

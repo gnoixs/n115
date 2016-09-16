@@ -1,3 +1,5 @@
+
+
 angular.module('starter.controllers', ['ionic'])
     .controller('pickCtrl', ['$rootScope', '$scope', '$ionicSlideBoxDelegate', '$ionicPopup', '$timeout','$resource', 'util', 'Tip', function ($rootScope, $scope, $ionicSlideBoxDelegate, $ionicPopup, $timeout, $resource, util, Tip) {                 //选球控制器
 
@@ -94,8 +96,12 @@ angular.module('starter.controllers', ['ionic'])
         var time = util.getTimeout();
 
 
-        var timer = setInterval(function () {
-            if (time < 0) {
+        var timer = setInterval(function () {  
+            if(time == false){
+                clearInterval(timer);
+                return;
+            }         
+            if (time <= 0) {
                 new Tip('当前销售截止,进入下期购买').start();
                 $rootScope.term++;
                 time = util.getTimeout();
@@ -1057,10 +1063,15 @@ angular.module('starter.controllers', ['ionic'])
         }
 
     }])
+    .controller('introCtrl',['$scope',function($scope){
+        $scope.goBack = function(){
+            history.go(-1);
+        }
+    }])
     .controller('bodyCtrl', ['$scope', function ($scope) {
 
 
-    }]).factory('util', function ($ionicPopup, Tip) {
+    }]).factory('util', ['$ionicPopup','Tip',function ($ionicPopup, Tip) {
     return {
         buildUI: function (titleArr, type) {
             var eles = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '5单0双', '4单1双', '3单2双', '2单3双', '1单4双', '0单5双', '大', '小', '全', '单', '双', '清'];
@@ -1405,7 +1416,7 @@ angular.module('starter.controllers', ['ionic'])
                         {
                             text: '查看玩法说明',
                             onTap: function (e) {
-
+                                location.href = '/#/intro';
                             }
                         },
                         {
@@ -1424,14 +1435,12 @@ angular.module('starter.controllers', ['ionic'])
         getTimeout: function () {
             var _h = new Date().getHours();
             var _m = new Date().getMinutes();
-            if (_h >= 9 && _h < 10) {             //9点到10点
-                time = 3600 - (_m * 60 + new Date().getSeconds() + 1);
-            } else if (_h >= 10 && _h < 22) {    //10点到22点
-                time = 600 - (_m % 10 * 60 + new Date().getSeconds() + 1);
-            } else if ((_h >= 22 && _h < 24) || (_h >= 0 && _h < 2)) {    //22点到2点
-                time = 300 - (_m % 10 * 60 + new Date().getSeconds() + 1);
+            var time;
+            if((_h == 9&& _m >=5) ||(_h > 9 && _h <22)){   //9点到22点
+                
+                return time = 900 - (_m % 10 * 60  + new Date().getSeconds() + 1);
             }
-            return time;
+            return false;
         },
         getDanshiRandom: function (num) {
             var arr = [];
@@ -1489,7 +1498,7 @@ angular.module('starter.controllers', ['ionic'])
             return money;
         }
     }
-}).factory('Tip', function () {
+}]).factory('Tip', function () {
     function tipAnimationo(word, dom) {
         this.$dom = $('body')
         this.word = word || '提示';

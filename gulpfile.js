@@ -1,7 +1,7 @@
 var path = require('path');
 var fs   = require('fs');
 
-var gulpath = require('./config/gulp.cf.json');
+var gulpath = require('./configs/gulp.cf.json');
 
 var gulp     = require('gulp');
 var sass     = require('gulp-sass');
@@ -28,11 +28,12 @@ gulp.task("clean",function(){
 
 //编译sass
 gulp.task('style',function(){
-		return gulp.src(gulpath.style.src)
-		.pipe(sass({style:'expanded'}))						
-		.pipe(concat('c11f5.css'))						
-		.pipe(gulp.dest(gulpath.style.build))				
-		.pipe(notify({message:'编译sass到build目录完毕'}))	
+		return gulp.src(['public/libs/ionic/release/css/ionic.css','public/src/styles/style.css'])					
+		.pipe(concat('main.css'))
+		.pipe(css())
+		.pipe(rename({suffix:'.min'}))						
+		.pipe(gulp.dest('public/build'))				
+		.pipe(notify({message:'css完成...'}))	
 		//.pipe(css())										
 		//.pipe(rename({suffix:'.min'}))						
 		//.pipe(gulp.dest(gulpath.gulp.build))				
@@ -41,11 +42,13 @@ gulp.task('style',function(){
 
 //javascirpt
 gulp.task('scripts',function(){
-		return gulp.src(gulpath.scripts.src)
+		return gulp.src(['public/libs/jquery/dist/jquery.js','public/libs/ionic/release/js/ionic.bundle.js','public/libs/angular-resource/angular-resource.js','public/src/scripts/app.js','public/src/scripts/controller.js'])
 		.pipe(jshint())														
-		.pipe(concat('c11f5.js'))											
-		.pipe(gulp.dest(gulpath.scripts.build))								
-		.pipe(notify({message:'javascript检查合并到bulid目录完毕'}))		
+		.pipe(concat('all.js'))
+		.pipe(uglify())
+		.pipe(rename({suffix:'.min'}))											
+		.pipe(gulp.dest('public/build'))								
+		.pipe(notify({message:'javascript 完毕...'}))		
 		//.pipe(uglify())														
 		//.pipe(rename({suffix:'.min'}))										
 		//.pipe(gulp.dest(gulpath.gulp.scripts.build))								
@@ -53,9 +56,9 @@ gulp.task('scripts',function(){
 });
 //压缩图片
 gulp.task('images',function(){
-	return gulp.src(gulpath.images.src)
+	return gulp.src('public/src/imgs/*.*')
 		.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))		
-		.pipe(gulp.dest(gulpath.images.build))														
+		.pipe(gulp.dest('public/build/imgs'))														
 		.pipe(notify({message:'图片压缩到build目录完毕'}))																	
 });
 
@@ -67,5 +70,5 @@ gulp.task('watch',function(){
 });
 
 gulp.task('default',['clean'],function(){
-	gulp.start('style','scripts','images','watch');
+	gulp.start('style','scripts','watch');
 });
